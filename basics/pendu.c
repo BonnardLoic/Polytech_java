@@ -31,17 +31,25 @@ void mot_random(char chaine[])
 
 void motUser(char *char_user)
 {
+    char bin;
     printf("Entre une lettre : ");
-    scanf("%c", char_user);
+    scanf("%c%c", char_user, bin);
 }
 
-void afficheMot(char chaine[])
+void afficheMot(char chaine[], int bool_mot[])
 {
     int taille_mot = (strlen(chaine) - 2);
 
     for (int i = 0; i < taille_mot; i++)
     {
-        printf("_");
+        if (chaine[i] == bool_mot[i])
+        {
+            printf("%c", chaine[i]);
+        }
+        else
+        {
+            printf("_");
+        }
     }
     RL();
 }
@@ -68,10 +76,10 @@ void testMot(char chaine[], char *char_user, int *bool_mot)
         }
     }
 
-    for (int j = 0; j < taille_mot; j++)
-    {
-        printf("%d", bool_mot[j]);
-    }
+    // for (int j = 0; j < taille_mot; j++)
+    // {
+    //     printf("%d", bool_mot[j]);
+    // }
     RL();
 }
 
@@ -88,6 +96,7 @@ int32_t main(int32_t argc, char *argv[])
     {
         motUser(&char_user);
         testMot(chaine, &char_user, bool_mot);
+        afficheMot(chaine, char_user);
         nb_essai -= 1;
     }
 
