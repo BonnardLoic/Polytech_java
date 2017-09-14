@@ -46,11 +46,9 @@ void afficheMot(char chaine[])
     RL();
 }
 
-void testMot(char chaine[], char *char_user)
+void testMot(char chaine[], char *char_user, int *bool_mot)
 {
     int taille_mot = (strlen(chaine) - 2);
-    int bool_mot[taille_mot];
-
     for (int i = 0; i < taille_mot; i++)
     {
         if (*char_user == chaine[i])
@@ -59,7 +57,14 @@ void testMot(char chaine[], char *char_user)
         }
         else
         {
-            bool_mot[i] = 0;
+            if (*char_user == chaine[i])
+            {
+                bool_mot[i] = 1;
+            }
+            else
+            {
+                bool_mot[i] = 0;
+            }
         }
     }
 
@@ -76,11 +81,12 @@ int32_t main(int32_t argc, char *argv[])
     char chaine[TAILLE_MAX];
     char char_user;
     mot_random(chaine);
-    int nb_essai = (strlen(chaine)-2) * 2;
+    int nb_essai = (strlen(chaine) - 2) * 2;
+    int bool_mot[strlen(chaine - 2)];
     //afficheMot(chaine);
     printf("%s et nb essai %d\n", chaine, nb_essai);
     motUser(&char_user);
-    testMot(chaine, &char_user);
+    testMot(chaine, &char_user, bool_mot);
 
     return 0;
 }
