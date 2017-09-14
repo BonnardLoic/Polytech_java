@@ -1,0 +1,157 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en-US" >
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Basics Workshop</title>
+    <meta name="CHANGEDBY" content="Pr. Olivier Gruber">
+    <link rel="stylesheet" href="style.css" type="text/css"/> 
+    <script src="common.js"></script>
+  </head>
+
+  <body onload="shellOnLoad()">
+
+    <script>
+      function shellOnLoad() {
+        multiLang();
+      }  
+    </script>
+
+    <div id="outer-container" >
+      <div id="header" >
+	<div id="logo" >
+	  <img src="logo_uga.png" height="100" border="0" alt="Université Grenoble-Alpes" />
+	  <img src="logo_reseau_polytech.gif" height="80" border="0" alt="Polytech" />
+	</div>
+	<div id="top-links">
+	  <a href="index.html">Home</a> 
+	</div>
+      </div>
+      <div id="inner-container" >
+	
+	<h1>Access Control List</h1>
+	
+	<p>
+	  A Linux machine is a multi-user machine, this means
+	  that more than one user can log on one single machine,
+	  at the same time. But do not worry, Linux makes sure
+	  that different users can work independently and enjoy
+	  complete privacy.
+	  <xfr>
+	    Une machine linux est une machine mutli-utilisateur,
+	    ce qui veux dire que plusieurs utilisateurs peuvent
+	    partager une seule machine. Mais ne vous inquiétez pas,
+	    Linux (tout comme Windows d'ailleurs) est conçu pour
+	    cela, il isole les différents utilisateurs.
+	  </xfr>
+	</p>
+	<p>
+	  <b>Note: </b>
+	  If you are a Linux beginner, you may want to skip
+	  the rest of this section and come back to it later.
+	  <xfr>
+	    Si vous êtes débutant sous linux, il serait mieux
+	    de vous arreter ici et de revenir plus tard pour
+	    lire la suite de cette section.
+	  </xfr>
+	</p>
+	
+	<p>
+	  As you know, you have a login name. That login name
+	  is unique. Also, you have a <b>home</b> directory,
+	  that is yours and yours alone. Assuming your login
+	  is "john", your home is likely the directory /home/john.
+	  <xfr>
+	    Comme vous le savez, vous avez un nom de login et ce nom
+	    est unique. Vous avez aussi un dossier <b>home</b>,
+	    qui vous est réservé. Par exemple, si votre nom
+	    de login est "john", votre dossier home est le
+	    dossier /home/john.
+	  </xfr>				
+	</p>
+	<p>
+	  To ensure the privacy of each user, Linux manages
+	  access rights on files and directories, through
+	  the concept of users and groups. Any file or directory
+	  has an owner and group, along with associated rights.
+	  <xfr>
+	    Pour assurer l'isolation des utilisateurs, Linux
+	    gère des droits d'accès sur les fichiers et les
+	    dossiers. Tout fichier ou dossier a donc des droits
+	    différents pour le propriétaire du fichier, le
+	    groupe du fichier, ou les autres utilisateurs.
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="7" width="60%" >
+	  $ cd /home/john
+	  $ ls -al
+	  drwxrwxr-x 7 john students 4096 sept.  7 15:36 .
+	  drwxrwxr-x 6 root root 4096 août  30 08:08 ..
+	  -rw-r--r-- 6 root root 4096 août  30 08:08 README
+	  ...
+	  $
+	</textarea>
+	<p>
+	  In this example, we see the current directory,
+	  denoted by ".", has owned by john, and belonging
+	  to the group  of students. We can see the parent
+	  directory, denoted by "..", has owned by <em>root</em>
+	  and belonging to the group <em>root</em>.
+	  <xfr>
+	    Dans cet exemple, nous voyons que le dossier courant,
+	    qui est dénoté pas ".", a pour propriétaire l'utilisateur
+	    "john". Il a pour groupe le groupe "students".
+	    Le dossier parent, dénoté par "..",
+	    a pour propriétaire l'utilisateur
+	    "root". Il a pour groupe le groupe "root".
+	  </xfr>
+	</p>
+	<p>
+	  You can see that these two are directories, because
+	  the lines start with a "d" letter. Compare with the
+	  last line for the README file.
+	  <xfr>
+	    Vous pouvez voir que "." et ".." sont deux dossiers
+	    car les lignes correspondantes commencent pas la
+	    lettre "d". Comparez avec la ligne pour le fichier
+	    README, qui commence elle par le signe '-'.
+	  </xfr>
+	</p>
+	<p>
+	  You can see the access rights, as combinations of
+	  the rwx letters (r for read, w for write, and x for
+	  execute). A directory needs to have the execute mode
+	  to be browsed. A file usually only has the execute mode
+	  if it is a program that can be executed.
+	  <xfr>
+	    Vous pouvez voir les droits d'accès, comme une combinaison
+	    des lettres rwx (r pour la lecture, w pour l'écriture,
+	    et x pour l'exécution). Un dossier doit avoir le droit
+	    en exécution pour être parcouru. Un fichier a le droit
+	    d'exécution lorsqu'il s'agit d'un programme que vous pouvez
+	    lancer dans un shell.
+	  </xfr>
+	</p>
+	<p>
+	  The first three letters are the access rights for the
+	  owner. The next three are for the group, that is, the
+	  users that belong to the group associated with that
+	  file or directory. The last
+	  three are for all other users.
+	  <xfr>
+	    Les trois premières lettres sont les droits d'accès
+	    pour le propriétaire du fichier. Les trois suivantes sont
+	    les droits pour les utilisateurs qui font parti du groupe
+	    associé au ficher. Les trois dernières
+	    sont les droits pour tous les autres utilisateurs.
+	  </xfr>
+	</p>
+	<div id="footer" >
+	  &copy; Pr. Olivier Gruber
+	  <div id="bottom-links" style="float: right">
+	    <a href="index.html">Home</a> 
+	  </div>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,261 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en-US" >
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Basics Workshop</title>
+    <meta name="CHANGEDBY" content="Pr. Olivier Gruber">
+    <link rel="stylesheet" href="style.css" type="text/css"/> 
+    <link rel="stylesheet" href="prettify.css" type="text/css" rel="stylesheet" />
+    <script src="prettify.js" type="text/javascript"></script>
+    <script src="common.js"></script>
+  </head>
+
+  <body onload="shellOnLoad()">
+
+    <script>
+      function shellOnLoad() {
+        prettyPrint();
+        multiLang();
+      }  
+    </script>
+
+    <div id="outer-container" >
+      <div id="header" >
+	<div id="logo" >
+	  <img src="logo_uga.png" height="100" border="0" alt="Université Grenoble-Alpes" />
+	  <img src="logo_reseau_polytech.gif" height="80" border="0" alt="Polytech" />
+	</div>
+	<div id="top-links">
+	  <a href="index.html">Home</a> 
+	</div>
+      </div>
+      <div id="inner-container" >
+	
+	<h1>Compilation with GCC</h1>
+	
+	<h2>From source file to executable files</h2>
+
+	<p>
+	  In Linux, everything is a file or a process.
+	</p>
+	<p>
+	  So the source of your
+	  program will be in a file. What is the source of a
+	  program? It is the textual representation of your program,
+	  that is, the text that you will type in a text editor.
+	  The source of a C program is in a file with the ".c"
+	  extension:
+	  <xfr>
+	    Donc le source de vos programs seront des fichiers.
+	    Mais qu'est-ce que le source d'un programme?
+	    C'est le texte de la recette que va suivre votre
+	    processor, texte que vous allez taper dans un
+	    éditeur de texte. Le fichier aura traditionnellement
+	    une extension ".c".
+	  </xfr>
+	    
+	</p>
+	<textarea class="terminal" rows="4" >	
+  $ cd ~
+  $ mkdir HelloWorld
+  $ cd HelloWorld
+  $ nano hw.c
+	</textarea>
+	<p>
+	  Please type in the following text:
+	</p>
+	<pre class="prettyprint lang-c">
+#include "stdint.h"
+#include "stdio.h"
+
+int32_t main(int32_t argc, char* argv[]) {
+  printf("Hello World! \n");
+  return 0;
+}
+	</pre>
+	<p>
+	  A source file can be translated by a compiler into
+	  an executable file, that is, a file containing binary
+	  data that your processor can execute.
+	  <xfr>
+	    Le fichier source sera traduit par le compilateur
+	    en un fichier exécutable, c'est à a dire un fichier
+	    contenant le code binaire correspondant au programme
+	    que vous avez compilé.
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="7" >	
+  $ gcc -g -o hw hw.c
+  $ ls -al
+  drwxrwxr-x 7 john students 4096 sept.  7 15:36 .
+  drwxrwxr-x 6 root root 4096 août  30 08:08 ..
+  -rw-rw-r-- 6 john john  129 août  30 08:08 hw.c
+  -rwxrwxr-x 6 john john 8064 août  30 08:08 hw
+	</textarea>
+	<p>
+	  See, the compiler produced a file called "hw"
+	  and that file can be executed like this:
+	</p>
+	<textarea class="terminal" rows="4" >	
+  $ ./hw
+  Hello World!
+  $
+	</textarea>
+	<p>
+	  Hey, you just executed your first program.
+	  Congratulations! But what really happened there.
+	  Let's use a debugger to see the details of the
+	  execution, one of the greatest ways to learn
+	  programming. Let's discuss step by step what
+	  happened.
+	  <xfr>
+	    Super, vous avez exécuter votre premier programme.
+	    Félicitations! Mais que c'est-il vraiment passé?
+	    Nous allons utiliser un debugger pour voir en
+	    détails ce qui s'est passé. En effet, le debugger
+	    est un outil formidable pour apprendre à programmer.
+	    Discutons donc étape par étape ce qui s'est
+	    réellement passé.
+	    </xfr>
+	</p>
+	<p>
+	  The source file was translated by the compiler <em>gcc</em>
+	  into  an executable file containing binary. Can we verify
+	  that? Of course, just type:
+	  <xfr>
+	    Le fichier source a été traduit en binaire par le compilateur,
+	    pouvons nous le vérifier:
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="7" >	
+  $ gcc -g -o hw hw.c
+  $ file hw
+  hw: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked,
+  interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32,
+  BuildID[sha1]=b069ef0221171cd91528dd2696d0c2fdaed4584f, not stripped
+  $
+	</textarea>
+	<p>
+	  So here you have it, we know that it is a executable
+	  for 64-bit machines, with an Intel or AMD processor,
+	  this is what means the cryptic x86-64.
+	  <xfr>
+	    C'est beaucoup d'informations... mais on peut quand
+	    même y trouver des choses qui nous parle.
+	    Le fichier est bien exécutable, sur une machine 64-bit,
+	    avec un processeur Intel ou AMD. C'est le sens de x86-64.
+	  </xfr>
+	</p>
+	<p>
+	  But can we see the binary as we discussed in our
+	  seminar at the beginning of this workshop?
+	  Of course, we can dump the binary code corresponding
+	  to your program:
+	  <xfr>
+	    Pour faire le lien avec le séminaire de ce matin,
+	    on peut faire un «dump» du contenu du fichier exécutable «hw».
+	    Pour le faire, nous allons utiliser le programme
+	    «objdump», comme suit:
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="2" >	
+  $ objdump -D hw
+	</textarea>
+	<p>
+	  Oops, isn't that a bit too much information?
+	  This situation will happen to you many times,
+	  with programs outputting way too many information
+	  to be read in the terminal.
+	  What we need is a way to store that information
+	  so that we can sniff through it later.
+	  To do this, just use the following command:
+	  <xfr>
+	    Oops, bien trop d’informations.
+	    Cela va vous arrivez souvent, que la sortie d’un programme
+	    dans le terminal soit longue, avec bien trop de lignes.
+	    On aimerait pouvoir garder cette sortie dans un fichier texte,
+	    que l’on pourrait ensuite voir tranquillement
+	    dans un éditeur de texte.
+	    Pour faire cela, nous allons utiliser la commande suivante:
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="2" >	
+  $ objdump -D hw >> log.txt
+	</textarea>
+	
+	<p>
+	  As you can see, nothing is printed on the screen anymore.
+	  Everything the program prints goes to the file "log.txt".
+	  Notice that we gave an extension "txt" so that we know when
+	  looking at the filename that it is a textual file.
+	  <xfr>
+	    Plus rien n’apparait dans le terminal.
+	    Toute la sortie a été redirigée vers le fichier «log.txt».
+	    Remarquez que nous avons utilisé une extension pour indiquer
+	    la nature du contenu du fichier. Pour voir son contenu,
+	    utiliser un éditeur de texte.
+	    Vous pouvez utiliser nano ou bien gedit.
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="2" >	
+  $ gedit log.txt 
+	</textarea>
+	<p>
+	  The massive amount of information is still there,
+	  but it is now possible to search for what we want
+	  to look for. Let's search for our function <em>main</em>.
+	  <xfr>
+	    Il y a toujours beaucoup d’informations,
+	    mais au moins, il est possible de faire une recherche,
+	    pour trouver la fonction «main», que nous avions écrit
+	    dans notre source «hw.c».
+	  </xfr>
+	<p>
+	  <pre>
+0000000000400526 <main>:
+  400526:	55                   	push   %rbp
+  400527:	48 89 e5             	mov    %rsp,%rbp
+  40052a:	48 83 ec 10          	sub    $0x10,%rsp
+  40052e:	89 7d fc             	mov    %edi,-0x4(%rbp)
+  400531:	48 89 75 f0          	mov    %rsi,-0x10(%rbp)
+  400535:	bf d4 05 40 00       	mov    $0x4005d4,%edi
+  40053a:	e8 c1 fe ff ff       	callq  400400 <puts@plt>
+  40053f:	b8 00 00 00 00       	mov    $0x0,%eax
+  400544:	c9                   	leaveq 
+  400545:	c3                   	retq   
+  400546:	66 2e 0f 1f 84 00 00 	nopw   %cs:0x0(%rax,%rax,1)
+  40054d:	00 00 00 
+	  </pre>
+	<p>
+	  Of course, you do not have to parse and understand it all.
+	  But as we discussed this morning, you an see the address
+	  (0x400526) of the memory region where the code will be.
+	  You can see the binary stored in that region, that binary
+	  will be read by the processor during the execution.
+	  And then you can see the corresponding assembly instructions
+	  that are <em>easier</em> for developers to understand.
+	  The <em>gcc</em> compiler has done a lot of work for you,
+	  translating a source writtin almost in plain english
+	  into a binary that a processor can execute. 
+	  But how can confirm that the code can be executed?
+	  Well, it is time for us to debug that execution.
+	  <xfr>
+	    Il n’est pas demandé de lire et comprendre l’assembleur
+	    et encore moins le binaire, mais vous voyez, le compilateur
+	    gcc a fait la travail de transformer votre code source,
+	    un texte écrit en anglais, en des 0s et des 1s que
+	    le processeur de votre machine peut exécuter.
+	    Mais comment confirmer cela?
+	    En bien passons à la magie du debug.
+	  </xfr>
+	</p>
+	<div id="footer" >
+	  &copy; Pr. Olivier Gruber
+	  <div id="bottom-links" style="float: right">
+	    <a href="index.html">Home</a> 
+	  </div>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>

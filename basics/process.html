@@ -1,0 +1,316 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en-US" >
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Basics Workshop</title>
+    <meta name="CHANGEDBY" content="Pr. Olivier Gruber">
+    <link rel="stylesheet" href="style.css" type="text/css"/> 
+    <script src="common.js"></script>
+  </head>
+
+  <body onload="shellOnLoad()">
+
+    <script>
+      function shellOnLoad() {
+        multiLang();
+      }  
+    </script>
+
+    <div id="outer-container" >
+      <div id="header" >
+	<div id="logo" >
+	  <img src="logo_uga.png" height="100" border="0" alt="Université Grenoble-Alpes" />
+	  <img src="logo_reseau_polytech.gif" height="80" border="0" alt="Polytech" />
+	</div>
+	<div id="top-links">
+	  <a href="index.html">Home</a> 
+	</div>
+      </div>
+      <div id="inner-container" >
+	
+	<h1>About Processes</h1>
+
+	<p>
+	  Linux knows about directories, files, and processes.
+	  Directories and files are for storing data.
+	  Processes are for the execution of programs.
+	  <xfr>
+	    Linux connait les concepts de dossiers, fichiers,
+	    et process. Les dossiers et les fichiers sont
+	    pour la sauvegarde des données, les processus sont
+	    dédiés à l'exécution de programmes.
+	  </xfr>
+	</p>
+	<p>
+	  The process is a container for the execution of a program.
+	  To execute a program, Linux creates a process, in which
+	  it loads the program. That way, Linux can control executing
+	  programs, in fact, controlling their process. Through
+	  various shell commands, you can control processes too.
+	  <xfr>
+	    Un processus est un container pour l'exécution d'un program.
+	    Pour exécuter un programme, Linux crée d'abord un processus,
+	    dans lequel il charge le program. C'est grâce au processus
+	    que Linux peut controler l'exécution de votre program.
+	    Vous pouvez aussi lister et controller les processus au
+	    travers de certaines commandes du shell.
+	  </xfr>
+	<p>
+
+	<h2>Basic Commands</h2>
+
+	<p>
+	  Only a few commands are necessary to know.
+	  <xfr>
+	    Seules quelques commandes suffisent:
+	  </xfr>
+	</p>
+	<ul>
+	  <li><b>ps></b>: prints currently running processes </li>
+	  <li><b>kill></b>: kill a process </li>
+	  <li><b>top></b>: looks at process resource consumption </li>
+	</ul>
+
+	<h2>Listing Processes</h2>
+	
+	<p>
+	  Everything that executes on your machine is a process.
+	  There are many processes running, let's take a look:
+	  <xfr>
+	    Tout ce qui s'exécute sur votre machine est un processus,
+	    et il y en a beaucoup:
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="9" >
+  $ ps -e
+  PID TTY          TIME CMD
+    1 ?        00:00:04 systemd
+    2 ?        00:00:00 kthreadd
+    3 ?        00:00:02 ksoftirqd/0
+    ...
+  28907 pts/13 00:00:00 bash
+  $
+	</textarea>
+	<p>
+	  When you boot your machine, the Linux kernel creates a first
+	  process and keeps on creating/destroying processes.
+	  On the left, the number is the Process IDentifier (pid),
+	  which uniquely identifies a running process. Then the
+	  triple numbers that follow are the CPU time. The CPU
+	  time is the time the process has been running in
+	  the format days:hours:minutes. Finally, you have the name
+	  of the executable file that was used to create the process.
+	  <xfr>
+	    Quand vous allumez votre machine, le noyau linux boot et
+	    crée le premier process, puis continue de créer et de
+	    détruire des processus en fonction des besoins.
+	    Sur la gauche, le premier nombre est le numéro de processus,
+	    un identifiant unique appelé "pid". Puis vous avez
+	    le temps CPU, c'est à dire le temps cummulatif que le
+	    processus à tourner sur votre machine, dans le format
+	    journées:heures:minutes. Puis enfin, vous avez le nom
+	    du fichier exécutable qui a servit a créer le processus.
+	  </xfr>
+	</p>
+	<p>
+	  As you can see, there are so many processes running that
+	  the previous command gives too much information. We need
+	  a way to filter that information.
+	  You can do this with the following command:
+	</p>
+	
+	<textarea class="terminal" rows="10" >
+  $ ps -e | grep bash
+   2404 pts/4    00:00:00 bash
+   2424 pts/9    00:00:00 bash
+   2497 pts/12   00:00:00 bash
+   3073 pts/1    00:00:00 bash
+   4552 pts/3    00:00:00 bash
+   9930 pts/5    00:00:00 bash
+  11793 pts/14   00:00:00 bash
+  14406 pts/6    00:00:00 bash
+  $ 
+	</textarea>
+	<p>
+	  The meaning is the following.
+	  The "|" is called a pipe. Why? Because it pipes
+	  the output of the command on the left-hand side into the command
+	  on the right-hand side. Then, the command
+	  on the right-hand side, the grep command, is a filtering
+	  command, keeping only the lines that contain the given pattern,
+	  here the pattern is the string "bash".
+	  The result is showing you all the currently processes that
+	  are named "bash", which happens to be the name of the Linux
+	  shell. 	  <xfr>
+	    Le caractère "|" est appelé un "pipe" (tuyau). Un pipe
+	    canalise la sortie de la commande sur sa gauche vers l'entrée
+	    de la commande sur sa droite. Dans ce cas, la commande sur
+	    sa droite est une commande qui filtre son entrée. Le filtre
+	    est ici la chaîne "bash". 
+	    Le résultat est donc la liste de tous les processus qui
+	    s'appelle "bash". Ces processus sont les instances du
+	    shell qui tournent actuellement sur votre machine.
+	  </xfr>
+	</p>
+	<p>
+	  Let's try to start a new process and spot it via the
+	  commands "ps" and "grep". Let's say we want to start a textual
+	  editor: gedit.
+	  But first, let's make sure you are not running gedit already.
+	  <xfr>
+	    Nous allons lancer un nouveau programme et le voir
+	    via les commandes "ps" and "grep". Mais véfifions que
+	    vous n'exécutez pas déjà cet éditeur de texte
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="3" >
+  $ ps -e | grep gedit
+  $ 
+	</textarea>
+	<p>
+	  If the above command shows you something, please find the
+	  corresponding window and exit your text editor. Remember to
+	  save anything that needs saving before you do so.
+	  Now, let's start gedit and check that we see it as a new
+	  process:
+	</p>
+	<textarea class="terminal" rows="3" >
+  $ gedit &
+  [1] 21230   
+  $ ps -e | grep gedit
+  21230 ?        00:00:02 gedit  
+  $ 
+	</textarea>
+	<p>
+	  The character "&" asks the shell to start the program
+	  and then come back right away, giving you back the prompt.
+	  The new process is said to run in background.
+	  Indeed, you can see the program gedit has started and
+	  since it has popped up its text-editing window on your screen.
+	  <xfr>
+	    Le caractère "&" demande au shell de lancer le program
+	    gedit mais de revenir immédiatement sans attendre la
+	    terminaison du programme, vous redonnant la main dans
+	    le shell. Vous pouvez voir que le programme gedit tourne
+	    puisqu'il vous a ouvert sa fenêtre d'édition.
+	  </xfr>
+	</p>
+
+	<h2>Killing Processes</h2>
+
+	<p>
+	  Let's suppose now that we want to kill the processus
+	  "gedit". Let's say the window has become unresponsive
+	  and you cannot close it by clicking on the window close
+	  icon. There is a way to kill a process if you know its
+	  pid.
+	  <xfr>
+	    Supposons que nous souhaitions tuer le processus "gedit".
+	    Pourquoi, nous allons imaginer que l'éditeur de texte
+	    est bloquée et que son interface graphique ne réponds
+	    plus. Si vous connaissez le pid d'un processus, vous
+	    pouvez le tuer avec la commande suivante:
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="3" >
+  $ ps -e | grep gedit
+  21230 ?        00:00:02 gedit  
+  $ kill 21230
+	</textarea>
+	<p>
+	  Be extremely careful here. This must be a last resort.
+	  Always try to exit your programs cleanly, if you can.
+	  This is in case your program is no longer responding.
+	  This will happen from time to time, when making mistakes
+	  when programming.
+	</p>
+
+	<h2>Information about Processes</h2>
+
+	<p>
+	  Sometimes, you machine seems sluggish.
+	  The fan is getting noisier by the minute.
+	  You probably have a rogue process.
+	  But which one? Try the command top:
+	  <xfr>
+	    Parfois, votre machine va vous paraître lente.
+	    Son ventilateur va tourner de plus en plus vite,
+	    faisant de plus en plus de bruit.
+	    Mauvaise nouvelle: vous avez probablement un
+	    processus qui déraille. Mais lequel?
+	    Essayer la commande top:
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="2" >
+  $ top
+	</textarea>
+	<p>
+	  You should get something like this in your terminal
+	  window:
+	  <xfr>
+	    Vous devriez obtenir quelque chose comme cela
+	    dans votre terminal:
+	  </xfr>
+	</p>
+	<img src="top.png" width="60%" />
+	<p>
+	  Keep looking and you will see that it changes,
+	  it is a life feed on the current status of all
+	  the processes running on your machine.
+	  Now let's have fun and let's start a rogue process.
+	  Download our <a href="rogue">rogue process</a>,
+	  open another terminal, and launch it.
+	  Watch the terminal running top, you will see
+	  the "rogue" process appear and rapidly consuming
+	  100% CPU.
+	  <xfr>
+	    Regardez le terminal où le programme top tourne.
+	    Vous regardez en direct l'état des processus,
+	    qui changent tout le temps. Maintenant,
+	    lançons un programme renégat. Téléchargez
+	    notre <a href="rogue">programme renégat</a>
+	    et lancez le dans
+	    un nouveau terminal.
+	    Regardez l'affichage du programme top,
+	    vous verrez votre processus "rogue" apparaître
+	    et très rapidement utiliser un CPU à 100%.
+	  </xfr>
+	</p>
+	<p>
+	  See the rogue process never ends and it keeps
+	  running, keeping busy one of your core. Well,
+	  how do stop such a program? You can use kill,
+	  as we did before. Or you use Ctrl-C in the
+	  terminal where you launch the rogue program.
+	  Hitting Ctrl-C normally works. But when it does
+	  not, use kill.
+	  <xfr>
+	    Vous voyez, notre processus renégat ne
+	    s'arrête jamais... il continue de tourner
+	    et de consommer 100% d'un de vos coeurs (CPU core).
+	    Comment l'arrêter? Vous pouvez utiliser la
+	    méthode avec kill que nous venons de voir.
+	    Vous pouvez aussi utiliser Ctrl-C dans la
+	    fenêtre où vous avez lancé le programme
+	    rogue. En général, Ctrl-C marche et le programme
+	    s'arrête. Si ce n'est pas le cas, utilisez
+	    la méthod avec kill.
+	  </xfr>
+	</p>
+	<p>
+	  If you know already how to write C code, and
+	  if you are interested, you can look at the
+	  <a href="rogue.c">source</a>
+	  of our very complex rogue program.
+	</p>
+	  
+	<div id="footer" >
+	  &copy; Pr. Olivier Gruber
+	  <div id="bottom-links" style="float: right">
+	    <a href="index.html">Home</a> 
+	  </div>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>

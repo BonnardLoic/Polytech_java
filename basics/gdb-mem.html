@@ -1,0 +1,166 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en-US" >
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Basics Workshop</title>
+    <meta name="CHANGEDBY" content="Pr. Olivier Gruber">
+    <link rel="stylesheet" href="style.css" type="text/css"/> 
+    <link rel="stylesheet" href="prettify.css" type="text/css" rel="stylesheet" />
+    <script src="prettify.js" type="text/javascript"></script>
+    <script src="common.js"></script>
+  </head>
+
+  <body onload="shellOnLoad()">
+
+    <script>
+      function shellOnLoad() {
+        prettyPrint();
+        multiLang();
+      }  
+    </script>
+
+    <div id="outer-container" >
+      <div id="header" >
+	<div id="logo" >
+	  <img src="logo_uga.png" height="100" border="0" alt="Université Grenoble-Alpes" />
+	  <img src="logo_reseau_polytech.gif" height="80" border="0" alt="Polytech" />
+	</div>
+	<div id="top-links">
+	  <a href="index.html">Home</a> 
+	</div>
+      </div>
+      <div id="inner-container" >
+	
+	<h1>Malloc and Free</h1>
+
+	<p>
+	  Malloc and Free, one of the most discussed topic in C
+	  programming. So what is it about?
+	  It is about allocating and freeing memory.
+	  It is somewhat an advanced topic, so beginners
+	  should be prepared to find it a bit hard.
+	  If you do not understand it all at first, that is OK,
+	  don't worry, give yourself time and practice, and you
+	  will get it. Guaranteed.
+	  <xfr>
+	    Malloc et Free sont parmis les sujets de discussion
+	    les plus abordés à propos de la programmation en C.
+	    C'est un sujet assez avancé et donc les débutants
+	    trouveront cela surement un peu difficile.
+	    Si vous ne comprenez pas tout du premier coup,
+	    ce n'est pas grave. Ne vous inquiétez pas, donner
+	    vous le temps et la pratique nécessaire, et vous
+	    verrez, vous allez comprendre. Aucun doute là dessus.
+	  </xfr>
+	</p>
+	<p>
+	  But what is <em>malloc</em> and <em>free</em> really
+	  about? 
+	  <xfr>
+	    Mais que quoi s'agit-il en réalité? 
+	  </xfr>
+	</p>
+	<p>
+	  So far, in all our example programs, we considered a
+	  few variables and we manipulated pointers to those
+	  variables. We also considered known arrays and strings.
+	  But what if we needed to have arrays of unknown length
+	  at compile time? Or manipulate strings of unknown length?
+	  Or create lists of structures? We would need to be
+	  able to allocate memory dynamically, on demand.
+	  <xfr>
+	    Jusqu'à présent, dans tous nos exemples, nous avons
+	    utilisé quelques variables et manipulé des pointeurs
+	    sur ces variables. On a fait de même pour les tableaux
+	    et les chaînes de caractères. Mais comment faire
+	    si nous avions besoin de tableaux ou de chaînes de caractères
+	    dont on ne connaitrait pas la longueur lors de l'écriture
+	    du programme. Ou bien si on devait manipuler des listes
+	    d'elements de longueur variable? Il faudrait pouvoir
+	    allouer de la mémoire à la demande.
+	  </xfr>
+	</p>
+	<p>
+	  This is exactly the purpose of the function <em>malloc</em>.
+	  It allocates a region of memory of a given size and return
+	  the address of that region in memory. Of course, when
+	  that region is no longer needed, it should be freed,
+	  using the function <em>free</em>. Why free? Because
+	  the amount of memory is not infinite and unused memory
+	  should be recycled for future use.
+	  <xfr>
+	    C'est exactement le propose de la fonction <em>malloc</em>.
+	    Elle alloue une région de mémoire d'une taille donnée,
+	    retournant l'adresse de cette zone. Bien sûr, lorsque
+	    cette région ne sera plus utile, il faut penser à la
+	    libérer avec la fonction <em>free</em>. Pourquoi?
+	    Parce que la mémoire n'est pas infinie et qu'il faut
+	    recycler les zones alloués qui ne sont plus nécessaire
+	    à l'exécution de votre programme.
+	  </xfr>
+	</p>
+	<p>
+	  You know the drill now.
+	  Look at this <a href="list.c">source</a>, download it,
+	  compile it, and then execute it under debugger if you need
+	  to understand details. But first, execute it from the shell.
+	  <xfr>
+	    Regarder le source <a href="list.c">source</a>,
+	    téléchargez le, compilez le, puis utilisez le debugger
+	    pour comprendre les détails qui ne sont pas clairs.
+	    Mais essayez de l'utiliser sans le debugger, pour voir
+	    comment il fonctionne.
+	  </xfr>
+	</p>
+	<p>
+	  This program is about a list of strings. It reuses the
+	  concept of structures to implement a list of elements.
+	  In our case, the elements are stings. First, we create
+	  a list and programmatically add a few strings.
+	  Then, we read strings from the prompt.
+	  Les listes et les strings sont toutes allouées en mémoire
+	  avec <em>malloc</em>.
+	  <xfr>
+	    Ce programmes manipule une liste de chaînes de caractères.
+	    Il réutilise le concept de structure qui nous avons vu
+	    un peu plus tôt. Il utilise les structures pour l'implémentation
+	    de la liste. Nous créons une première liste et ajoutons
+	    quelques chaînes de caractères. Puis nous saisissons
+	    des chaînes de caractères par le prompt.
+	    Toutes les listes et toutes les chaînes de caractères
+	    sont allouées par <em>malloc</em> puis libérer par
+	    <em>free</em>.
+	  </xfr>
+	</p>
+	<p>
+	  This will be challenging, but if you really apply yourself,
+	  we are convinced that you will succeed and that you will learn
+	  a lot. Of course, if you do just a quick read of the code,
+	  you will only get so much out of it. But if you really look
+	  closely, with an inquisite mind... you will see plenty
+	  of very useful patterns and you should have a lot of
+	  questions to find the answers to.
+	  <xfr>
+	    Cet étape va être un défi pour vous, mais si vous vous
+	    engagez dans l'aventure, nous sommes convaincu que vous
+	    allez y arriver et que vous allez apprendre énormément.
+	    Par contre, si vous vous contentez d'une lecture rapide,
+	    n'espérez pas apprendre beaucoup. Mais si vous regardez
+	    le code avec un esprit curieux et inquisiteur, alors
+	    vous allez découvrir plein de façons de faire qui
+	    méritent réflexion et approfondissement.
+	  </xfr>
+	</p>
+	<p>
+	  <b>Have fun learning...</b>
+	</p>
+	<div id="footer" >
+	  &copy; Pr. Olivier Gruber
+	  <div id="bottom-links" style="float: right">
+	    <a href="index.html">Home</a> 
+	  </div>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>

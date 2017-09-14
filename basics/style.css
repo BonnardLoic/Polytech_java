@@ -1,0 +1,417 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+*/
+
+/* HTML5 display-role reset for older browsers 
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+*/
+
+/*
+ * Some information on style sheets, gathered along.
+ *
+ * overflow:  visible|hidden|scroll|auto|initial|inherit;
+ * The overflow property specifies what happens if content overflows an element's box.
+ * This property specifies whether to clip content or to add scrollbars when 
+ * an element's content is too big to fit in a specified area.
+ * Note: The overflow property only works for block elements with a specified height.
+ *
+ */
+
+
+body {
+    margin-left: .3in;
+    overflow: auto;
+    height: 100%;
+    max-height: 100%;
+    min-height: 100%;
+    overflow: visible; 
+}
+
+#logo {
+    float: left;
+    padding: 0px 0 0 0;
+}
+
+#top-links {
+    float: right;
+}
+
+#top-links a {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0 0 0 10px;
+}
+
+#bottom-links {
+    float: right;
+}
+
+#bottom-links a {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0 0 0 10px;
+}
+
+#footer {
+    width: 100%; /*900px;*/
+    height: 100; /* 100px; */
+    padding: 10px 0 10px 0;
+    border-top: 1px solid #dfe2e1;
+    margin: 20 auto;
+}
+
+#footer a {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0 0 0 10px;
+}
+
+#outer-container {
+    width: 100%; 
+    max-width: 800px;
+    height: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    margin: 0 auto;
+    padding: 0;
+    overflow: visible; 
+}
+
+#header {
+    width: 90%; /*900px;*/
+    height: 100; /* 100px; */
+    padding: 10px 0 10px 0;
+    border-bottom: 1px solid #dfe2e1;
+    margin: 0 auto;
+}
+
+#banner {
+    width: 90%; /*900px;*/
+    height: 100; /* 100px; */
+    padding: 10px 0 10px 0;
+    border-bottom: 1px solid #dfe2e1;
+    margin: 0 auto;
+}
+
+#inner-container {
+    width: 90%; 
+    height: 100%;
+    overflow: visible; 
+    background: #ffffff;
+    margin: 0 auto;
+    display: block;
+    padding: 10px 0 10px 0;
+}
+
+#frame {
+    width: 100%;
+    height: 100%;
+    border: 0px;
+    overflow: visible;
+    border-bottom: 0px;
+}
+
+
+#nav{
+    position: absolute;
+    top: 0;
+    bottom: 0; 
+    left: 0;
+    width: 230px; /* Width of navigation frame */
+    height: 100%;
+    background: #eee;
+}
+
+h1 {
+    font-size: 28px;
+    line-height: 32px;
+    font-weight: bold;
+    color: #525252;
+    padding: 0px 0 0px 0;
+    /* margin-left: -.2in; */
+}
+h2 {
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: bold;
+    color: #525252;
+    padding: 0px 0 0px 0;
+    /* margin-left: -.2in; */
+    border-top: 2px solid #dfe2e1;
+    border-bottom: 1px solid #dfe2e1;
+}
+h3 {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: bold;
+    color: #525252;
+    padding: 0px 0 0px 0;
+    /* margin-left: -.2in; */
+    border-top: 2px solid #dfe2e1;
+    border-bottom: 1px solid #dfe2e1;
+}
+h4 {
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: bold;
+    color: #525252;
+    padding: 0px 0 0px 0;
+    /* margin-left: -.2in; */
+}
+
+
+p:lang(en-US) {
+    /*
+    padding: inherit;
+    margin: inherit;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    align: justify;
+    display: inherit;
+   */
+    font-size: 16px;
+    word-wrap: justify;
+    font-family: Arial,Serif;
+}
+    /* line-height: 18px; */
+    /* margin-bottom: 15px; */
+
+p:lang(fr) {
+    /*
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    align: justify;
+   */
+    font-size: 16px;
+    display: none;
+    border: 1px solid black;
+    word-wrap: break-word;
+    font-family: Arial,Serif;
+}
+
+span:lang(fr) {
+    /*
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    align: justify;
+   */
+    font-size: 16px;
+    display: none;
+    border: 1px solid black;
+    word-wrap: break-word;
+    font-family: Arial,Serif;
+    margin: 1px;
+    width: 100%;
+    margin-left: 0%;
+}
+
+td {
+    font-family: Arial,Serif;
+    font-size: 16px;
+    font-weight: normal;
+    /* line-height: 18px; */
+    /* margin-bottom: 15px; */
+}
+
+#flag-fr {
+    background-image: url( 'France-Flag-icon-16.png' );
+    background-size: 16px 16px;
+    height: 16px;  
+    width: 16px; 
+    margin: 0;
+    vertical-align: top;
+    display: inline;
+}
+
+#flag-en {
+    background-image: url( 'France-Flag-icon-16.png' );
+    background-size: 16px 16px;
+    height: 16px;  
+    width: 16px; 
+    margin: 0;
+    vertical-align: top;
+    display: inline;
+}
+
+/*
+strong {
+    font-weight: 700;
+}
+*/
+
+a.Extension { 
+    display: inline-block; 
+    width: 5em; height:2.5em; 
+    border: 1px solid black; 
+    vertical-align: top; 
+    text-align: center 
+}
+
+/* See HTML colors at 
+ *   http://html-color-codes.info/color-names/ 
+ * Use with a class attribute:
+ *   <span class="java-arg"> ... </span>
+ */
+.highlight { background-color: yellow; }
+.eclipse-perspective { font-style: italic; background-color: transparent; color: rgb(128,128,128); }
+.eclipse-view { font-style: italic; background-color: transparent; color: rgb(128,128,128); }
+.eclipse-tab { font-style: italic; background-color: transparent; color: rgb(128,128,128); }
+.eclipse-pane { font-style: italic; background-color: transparent; color: rgb(128,128,128); }
+.java-arg {
+    /* font-family: monospace; */
+    font-style: italic;
+    background-color: transparent;
+    color: DarkBlue;
+}
+.java-lvar {
+    font-style: italic;
+    background-color: transparent;
+    color: DarkBlue;
+}
+.java-field {
+    font-style: italic;
+    background-color: transparent;
+    color: DarkBlue;
+}
+.java-method {
+    font-style: italic;
+    background-color: transparent;
+    color: DarkBlue;
+}
+.java-class {
+    font-style: italic;
+    background-color: transparent;
+    color: DarkBlue;
+}
+.java-package {
+    font-style: italic;
+    background-color: transparent;
+    color: DarkBlue;
+}
+.java-svar {
+    font-style: italic;
+    background-color: transparent;
+    color: DarkBlue;
+}
+.java-smethod {
+    font-style: italic;
+    background-color: transparent;
+    color: DarkBlue;
+}
+.java-keyword {
+    font-style: italic;
+    background-color: transparent;
+    color: DarkMagenta;
+}
+.terminal {
+    background-color: black;
+    color: white;
+    border: 10px solid black;
+    font-family: monospace; 
+    /* font-family: Arial,Serif;*/
+    font-family: Monospace;
+    /* font-size: 13px; */
+    /* line-height: 18px; */
+    /* margin-bottom: 15px; */
+    width:100%;
+    disabled
+}
+.output {
+    background-color: black;
+    color: white;
+    border: 10px solid black;
+    /* font-family: Arial,Serif;*/
+    font-family: Monospace;
+    /* font-size: 13px; */
+    /* line-height: 18px; */
+    /* margin-bottom: 15px; */
+    width:100%;
+    disabled
+}
+
+.tooltip-error { background-color: white; color: red;}
+/*.tooltip-error { background-color: white; color: red; border: 2px solid black;}*/
+
+.stderr {
+    color: red;
+}
+
+.fake-href {
+	text-decoration: underline;
+}
+
+/*
+a {
+	color: #3d91b8;
+	text-decoration: none;
+}
+a:hover {
+	color: #3d91b8;
+	text-decoration: underline;
+}
+ul {
+	padding: 0 0 0 15px;
+}
+
+ul {
+    color: blue;
+}
+
+*/
+
+
+li {
+    word-wrap: break-word;
+    font-family: Arial,Serif;
+    font-size: 16px;
+    padding: 0 0 10px 0;
+}

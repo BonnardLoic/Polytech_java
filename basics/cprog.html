@@ -1,0 +1,199 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en-US" >
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Basics Workshop</title>
+    <meta name="CHANGEDBY" content="Pr. Olivier Gruber">
+    <link rel="stylesheet" href="style.css" type="text/css"/> 
+    <link rel="stylesheet" href="prettify.css" type="text/css" rel="stylesheet" />
+    <script src="prettify.js" type="text/javascript"></script>
+    <script src="common.js"></script>
+  </head>
+
+  <body onload="shellOnLoad()">
+
+    <script>
+      function shellOnLoad() {
+        prettyPrint();
+        multiLang();
+      }  
+    </script>
+
+    <div id="outer-container" >
+      <div id="header" >
+	<div id="logo" >
+	  <img src="logo_uga.png" height="100" border="0" alt="Université Grenoble-Alpes" />
+	  <img src="logo_reseau_polytech.gif" height="80" border="0" alt="Polytech" />
+	</div>
+	<div id="top-links">
+	  <a href="index.html">Home</a> 
+	</div>
+      </div>
+      <div id="inner-container" >
+	
+	<h1>C Programming Basics</h1>
+	
+	<p>
+	  Welcome to C Programming basics.
+	  <xfr>
+	    Bienvenue pour une découverte des bases
+	    de la programmation C sous Linux.
+	  </xfr>
+	</p>
+
+	<h2>A bit about C</h2>
+	<p>
+	  The C programming language is historically a companion
+	  to UNIX operating systems, a large family of operating
+	  systems that include Linux. The C programming language
+	  was certainly the first programming of choice for years.
+	  Now, other programming languages are available, such as
+	  Java, Python, or Caml. But in the end, Linux and C are
+	  still a very natural combo.
+	  <xfr>
+	    Le langage de programmation C est historiquement
+	    un companion naturel des systèmes d'exploitation de
+	    la famille UNIX, dont Linux. D'autres langages de
+	    programmation sont aujourd'hui disponible sous Linux,
+	    comme Java, Python ou Caml. Mais l'association de Linux
+	    et de C demeure très naturelle.
+	  </xfr>
+	</p>
+	<p>
+	  The particularity of the C programming language is that
+	  it is a low-level programming language. It was invented
+	  as an improvement over the assembly language, that is,
+	  the human version of the native language understood by
+	  your computer. The C programming language is essentially
+	  an english dialect, easier for developers, but the
+	  real nature of the underlying hardware still shows
+	  through.
+	  <xfr>
+	    La particularité du C est d'être un langage de programmation
+	    de bas niveua. Il a été inventé comme une amélioration
+	    du langage assembleur, le format textuel du binaire
+	    que comprends le processeur de votre machine.
+	    Le langage C est un dialect de l'anglais, plus facile
+	    d'approche pour les développeurs, mais les caractéristiques
+	    du matériel sous-javent de votre machine transparaissent.
+	  </xfr>
+	</p>
+	<p>
+	  As a result, we have two schools of thoughts when teaching
+	  C programming. One school of thoughts focuses on the cleaner
+	  aspects of C, typically considering it as most of the other
+	  programming languages and discussing mostly of algorithmic
+	  considerations. The other school of thoughts focuses on
+	  the low-level features of C, keeping the underlying hardware
+	  in mind when writing down code.
+	  <xfr>
+	    Il en résulte deux écoles de pensée. L'une, plus traditionnelle,
+	    se focalise sur les aspects les plus propres du langage C,
+	    regardant le C comme un langage de programmation comme les
+	    autres et se focalisant sur les aspects algorithmiques de
+	    la programmation. L'autre école se focalise sur la
+	    programmation en C en relation avec le matériel sous
+	    jacent.
+	  </xfr>
+	</p>
+	<p>
+	  In this workshop, we will follow the second school of thoughts.
+	  In fact, we will start from the hardware, from the processor
+	  and the binary language that it understands. We will always
+	  keep in mind the memory and its layout. Indeed, in C,
+	  all high-level types that help developers manipulate data or
+	  just logical views on the physical memory of your computer.
+	  The memory contains bits, grouped in bytes (8 bits). After that,
+	  everything is just a construct mapped onto bytes. For example,
+	  an integer value could be a view of the contents of a byte,
+	  2 bytes, 4 bytes, or even 8 bytes.
+	  <xfr>
+	    Dans cet atelier, nous allons suivre la seconde école de
+	    pensée. En fait, nous allons commencer au contact avec le matériel,
+	    du processeur et du binaire qu'il comprends. Nous allons
+	    toujours garder à l'esprit la mémoire et comment elle mémorise
+	    des valeurs. En effet, dans le langage de programmation C,
+	    tous les types de données ne sont que des vues logiques de
+	    la mémoire. La mémoire contient des 0s et des 1s, groupés
+	    en octet (8 bits). C'est ainsi qu'un entier en C pour
+	    être mémorisé en mémoire en utilisant 1 octet, 2 octets,
+	    4 octets, ou même 8 octets.
+	  </xfr>
+	</p>
+	<p>
+	  Therefore, we believe it is fundamental that you understand
+	  the memory layout of your machine and that you keep in mind
+	  that whatever construct you are manipulating in C, they are
+	  just a way of looking at bytes in memory. Nothing else. These
+	  constructs are just there to help you, they have no reality
+	  other than in your mind. Nevertheless, they are usefull to
+	  write better and simpler C programs.
+	  <xfr>
+	    Ainsi, nous croyons qu'il est fondamental que vous compreniez
+	    l'organisation de la mémoire et que vous gardiez à l'esprit
+	    cette organisation lorsque vous programmez en C. En effet,
+	    les constructions du C telles que les variables, les structures,
+	    ou encore les tableaux ne sont que des constructions pour vous
+	    aider, vous le développeur, la mémoire continu de ne voir que
+	    des 0s et des 1s.
+	  </xfr>
+	</p>
+
+	<h2>Our learning sprints</h2>
+	<p>
+	  So let's get started.
+	</p>
+	<ol>
+	  <li><a href="gcc-hw.html">From source file to executable files</a></li>
+	  <li><a href="gdb-hw.html">The debugger</a></li>
+	  <li><a href="gdb-callstack.html">The call stack</a></li>
+	  <li><a href="gdb-lvars.html">Variables and Pointers</a></li>
+	  <li><a href="gdb-arrays.html">Arrays and Strings</a></li>
+	  <li><a href="gdb-args.html">Program Arguments and Input</a></li>
+	  <li><a href="gdb-mem.html">Malloc and Free</a></li>
+	</ol>
+
+	<h2>Cheat Sheet for GDB</h2>
+
+	<p>
+	  There a few essential commands for GDB. Each command can be
+	  typed in full or just the abbreviated form given in parenthesis.
+	  <xfr>
+	    Les commandes essentielles de gdb sont les suivantes,
+	    avec leur abréviation entre parenthèses:
+	  </xfr>
+	</p>
+	<ul>
+	  <li><b>run</b> (r) pour lancer l’exécution du programme</li>
+	  <li><b>Ctrl-C</b> pour stopper l’exécution</li>
+	  <li><b>kill</b> (k) pour tuer l’exécution du programme</li>
+	  <li><b>quit</b> (q) pour quitter gdb.</li>
+	  <li><b>break</b> (br) pour positioner un point d’arrêt (breakpoint)<br>
+	    br main   (point d’arrêt dans une fonction)<br>
+	    br hw.c:5 (point d’arrêt à une ligne d’un fichier source)
+	  </li>
+	  <li><b>info break</b> (info br)  pour lister les points d’arrêt<br>
+	    Chaque point d'arrêt a un numéro.
+	  </li>
+	  <li><b>delete N</b> (d) pour enlever le point d’arrêt numéro N</li>
+	  <li><b>continue</b> (c) pour continuer l’exécution</li>
+	  <li><b>next</b> (n) pour exécuter jusqu’a la ligne suivantes</li>
+	  <li><b>step</b> (s) pour exécuter jusqu’au prochain statement</li>
+	  <li><b>finish</b> (fin) pour finir l’exécution de la fonction courante</li>
+	  <li><b>where</b> pour avoir la call stack.</li>
+	  <li><b>up</b> pour voir la stack frame parente</li>
+	  <li><b>down</b> pour voir la stack frame fille</li>
+	  <li><b>print</b> (p) pour imprimer une variable</li>
+	  <li><b>list</b> (l) pour afficher le source autour de la ligne courante</li>
+	</ul>
+	
+	<div id="footer" >
+	  &copy; Pr. Olivier Gruber
+	  <div id="bottom-links" style="float: right">
+	    <a href="index.html">Home</a> 
+	  </div>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>

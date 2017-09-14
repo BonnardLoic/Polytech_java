@@ -1,0 +1,386 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en-US" >
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Basics Workshop</title>
+    <meta name="CHANGEDBY" content="Pr. Olivier Gruber">
+    <link rel="stylesheet" href="style.css" type="text/css"/> 
+    <script src="common.js"></script>
+  </head>
+
+  <body onload="shellOnLoad()">
+
+    <script>
+      function shellOnLoad() {
+        multiLang();
+      }  
+    </script>
+
+    <div id="outer-container" >
+      <div id="header" >
+	<div id="logo" >
+	  <img src="logo_uga.png" height="100" border="0" alt="Université Grenoble-Alpes" />
+	  <img src="logo_reseau_polytech.gif" height="80" border="0" alt="Polytech" />
+	</div>
+	<div id="top-links">
+	  <a href="index.html">Home</a> 
+	</div>
+      </div>
+      <div id="inner-container" >
+	
+	<h1>About Directories</h1>
+	
+	<p>
+	  A Linux machine is a multi-user machine, this means
+	  that more than one user can log on one single machine,
+	  at the same time. But do not worry, Linux makes sure
+	  that different users can work independently and enjoy
+	  complete privacy.
+	  <xfr>
+	    Une machine linux est une machine mutli-utilisateur,
+	    ce qui veux dire que plusieurs utilisateurs peuvent
+	    partager une seule machine. Mais ne vous inquiétez pas,
+	    Linux (tout comme Windows d'ailleurs) est conçu pour
+	    cela, il isole les différents utilisateurs.
+	  </xfr>
+	</p>	
+	<p>
+	  As you know, you have a login name. That login name
+	  is unique. Also, you have a <b>home</b> directory,
+	  that is yours and yours alone. Assuming your login
+	  is "john", your home is likely the directory /home/john.
+	  <xfr>
+	    Comme vous le savez, vous avez un nom de login et ce nom
+	    est unique. Vous avez aussi un dossier <b>home</b>,
+	    qui vous est réservé. Par exemple, si votre nom
+	    de login est "john", votre dossier home est le
+	    dossier /home/john.
+	  </xfr>				
+	</p>
+
+	<h2>Tree of Directories</h2>
+	
+	<p>
+	  The file system is organized as a tree of directories,
+	  in which you may have files. A file is essentially a
+	  sequence of bytes. 
+	  <xfr>
+	    The système de fichier est organisé comme un arbre
+	    de dossiers, avec chaque dossier pouvant contenir des fichiers.
+	    Un fichier est essentiellement une séquence d'octets.
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="7" width="60%" >
+	  $ cd /home/john
+	  $ ls -al
+	  drwxrwxr-x 7 john students 4096 sept.  7 15:36 .
+	  drwxrwxr-x 6 root root     4096 août  30 08:08 ..
+	  -rw-r--r-- 6 root root      128 août  30 08:10 README
+	  ...
+	  $
+	</textarea>
+	<p>
+	  The output is a bit complex, if you want to understand
+	  it all, read <a href="acl.html">this</a>, but only if you are
+	  already familiar with linux and shells.
+	  Otherwise, let's focus only on the following:
+	  <xfr>
+	    La sortie de la commande "ls -al" est un peu complexe.
+	    Si vous voulez en comprendre tous les détails,
+	    vous pouvez lire cette <a href="acl.html">page</a>
+	    sur le sujet. Sinon, focalisons nous sur les points
+	    suivants:
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="7" width="60%" >
+	  $ cd /home/john
+	  $ ls -al
+	  d--------- 4096 sept.  7 15:36 .
+	  d--------- 4096 août  30 08:08 ..
+	  ----------  128 août  30 08:10 README
+	  $
+	</textarea>
+	<p>
+	  Per line, we have the following information.
+	  First, if the line is about a directory or a
+	  file (d or -). Then we have the size. A directory
+	  is always 4096. A file may be smaller or larger.
+	  Then we have the date of the creation of the file
+	  or directory. Finally, we have the name of the
+	  file or directory.
+	  <xfr>
+	    Par ligne, nous avons les informations suivantes.
+	    En premier, nous avons la lettre "d" ou le signe
+	    "-" qui indique si la ligne décrit un fichier ou
+	    un dossier. Puis nous avons la taille. Pour un dossier,
+	    linux affiche une taill de 4096. Pour un fichier,
+	    la taille varie. Puis nous avons la date de création
+	    du fichier ou du sous-dossier. Enfin, nous avons le nom
+	    du fichier ou du sous-dossier.
+	  </xfr>
+	</p>
+	<p>
+	  The current directory is /home/john, since we just
+	  ask the shell to change the directory there (the
+	  command cd). We then asked to list the content of
+	  the current directory.
+	  You can see that there are two directories, because
+	  the lines start with a "d" letter. Compare with the
+	  last line for the README file.
+	  <xfr>
+	    Nous sommes dans le dossier /home/john puisque nous
+	    avons demandé au shell de nous y placer. 
+	    Vous pouvez voir que "." et ".." sont deux dossiers
+	    car les lignes correspondantes commencent pas la
+	    lettre "d". Comparez avec la ligne pour le fichier
+	    README, qui commence elle par le signe '-'.
+	  </xfr>
+	</p>
+	<p>
+	  The "." names the current directory (/home/john).
+	  The ".." is the parent directory (/home). This is
+	  it means to say that directories are
+	  organized as a tree. Any directory is a node in
+	  that tree and has a parent directory.
+	  <xfr>
+	    Le nom "." dénome le dossier courant (/home/john)
+	    et le nom ".." dénome le dossier parent (/home).
+	    Lorsque l'on parle d'aborescence de dossiers,
+	    c'est ce que l'on veut dire: tout dossier est
+	    un noeud dans l'arbre et il a donc un dossier parent.
+	  </xfr>
+	</p>
+	<p>
+	  Therefore, the followin command does nothing:
+	</p>
+	<textarea class="terminal" rows="7" width="60%" >
+	  $ cd /home/john
+	  $ cd .
+	  $ pwd
+	  /home/john
+	</textarea>
+	<p>
+	  While the following command goes up in the tree:
+	</p>
+	<textarea class="terminal" rows="7" width="60%" >
+	  $ cd /home/john
+	  $ cd ..
+	  $ pwd
+	  /home
+	</textarea>
+	<p>
+	  In shell commands, you can use either relative paths
+	  or absolute paths. So for instance, the path /home/john
+	  is absolute, it starts at the root of the tree.
+	  The path "john" is relative, it is in fact "./john",
+	  meaning the directory john, relative to the current
+	  directory. Le chemin "john/Desktop" would also be a
+	  relative path: "./john/Desktop".
+	  <xfr>
+	    Dans toute commande shell, vous pouvez utiliser
+	    des chemins relatifs ou absolu. Par exemple, le
+	    chemin /home/john est un chemin absolu, il démarre
+	    par la racine de l'arbre. Le chemin "john" est
+	    un chemin relatif: "./john", par rapport au dossier
+	    courant. Le chemin "john/Desktop" serait aussi un
+	    cheming relatif par rapport au directory courant
+	    (./john/Desktop).
+	  </xfr>
+	</p>
+
+	<h2>Basic Commands</h2>
+
+	<p>
+	  Only a few commands are necessary to know.
+	  <xfr>
+	    Seules quelques commandes suffisent:
+	  </xfr>
+	</p>
+	<ul>
+	  <li> <b>pwd</b> (print-working-directory): affiche le dossier courant</li>
+	  <li> <b>cd</b> (change-directory): pour changer le dossier courant</li> 
+	  <li> <b>mkdir</b> (make-directory): pour créer un nouveau dossier</li>
+	  <li> <b>rmdir</b> (remove-directory): pour détruire un dossier</li>
+	  <li> <b>rm</b> (remove): pour détruire un fichier</li>
+	  <li> <b>mv</b> (move): pour renommer ou déplacer un fichiers</li>
+	  <li> <b>cp</b> (copy): pour copier un fichier</li>
+	</ul>
+
+	<p>
+	  When opening a terminal, the shell selects your home directory
+	  for the current directory. You can check this with the
+	  <em>pwd</em> command:
+	  <xfr>
+	    Lors de l’ouverture du terminal, vous êtes dans votre dossier «home».
+	    La commande pwd (print-working-directory) affiche le chemin du dossier courant.
+	    Essayez :
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="3" >
+  $ pwd
+  /home/john
+	</textarea>
+	<p>
+	  Assuming your login name is "john".
+	  <xfr>
+	    En faisant l’hypothèse que votre login est "john",
+	    ce qui n’est évident pas le cas.
+	  </xfr>
+	<p>
+	<p>
+	  Note that on the UFR machines, it seems the shell is configured
+	  slightly differently, starting with the directory /home/john/Desktop
+	  as the current directory. But your home directory is still /home/john.
+	  You can check this by typing the following:
+	  <xfr>
+	    Attention, sur les machines de l’UFR, il semblerait que vous soyez sous-dossier:
+	    /home/ogruber/Desktop.
+	    Mais, votre home n’est pas /home/ogruber/Desktop,
+	    votre home est bien /home/ogruber.
+	    D’ailleurs,  si vous faites:
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="4" >
+  $ cd ~
+  $ pwd
+  /home/john
+	</textarea>
+	<p>
+	  The character "~" always mean refers to your home directory.
+	  You can type this for example:
+	  <xfr>
+	    En effet, le chemin "~" référence toujours votre home.
+	    Vous pouvez par exemple faire:
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="4" >
+  $ cd ~/Desktop
+  $ pwd
+  /home/john/Desktop
+	</textarea>
+	<p>
+	  In your home directory, you can do whatever you want, create
+	  files and directories. Linux machines are multi-user environments
+	  and a user may only create files and directories in the sub-tree
+	  of his home.
+	  <xfr>
+	    Dans votre «home», vous avez le droit de créer des fichiers
+	    et des dossiers. En effet, les machines sous Linux sont partagées
+	    par plusieurs utilisateurs qui peuvent être connectés en même temps.
+	    Chaque utilisateur à son propre dossier «home»
+	    et peut y faire ce qu’il veut. 
+	  </xfr>
+	</p>
+	<p>
+	  To list the contents of a directory, simply use the command "ls" (list).
+	  <xfr>
+	    Pour connaître le contenu d’un dossier,
+	    la commande ls (list) est cruciale, elle liste les fichiers et les dossiers:
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="3" >
+  $ ls
+  ...
+	</textarea>
+	<p>
+	  Of course, the contents will depend on the actual contents
+	  of your current directory.
+	  <xfr>
+	    Bien entendu, la liste affichée va dépendre du contenu
+	    du dossier courant.
+	  </xfr>
+	</p>
+	<p>
+	  To create a new directory, as a sub-directory to the current directory,
+	  simply use the command mkdir:
+	  <xfr>
+	    Pour créer un dossier,
+	    il suffit d’utiliser la commande mkdir (make-directory) :
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="20" >
+  $ cd /home/john
+  $ mkdir toto
+  $ cd ./toto
+  $ pwd
+  /home/john/toto
+  $ mkdir titi
+  $ ls
+  titi
+  $ cd titi
+  $ pwd
+  /home/john/toto/titi
+  $ cd ../..
+  $ pwd
+  /home/john
+  $ cd toto/titi
+  $ pwd
+  /home/john/toto/titi
+	</textarea>
+
+	<p>
+	  A cool trick, you can come back to your "home" with the command cd
+	  with no arguments:
+	  <xfr>
+	    Vous pouvez toujours revenir à votre dossier «home» par
+	    la commande cd sans argument:
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="4" >
+  $ cd
+  $ pwd
+  /home/votre-login
+	</textarea>
+	<p>
+	  You can also do this:
+	</p>
+	<textarea class="terminal" rows="4" >
+  $ cd ~
+  $ pwd
+  /home/votre-login
+  $ cd ~/toto/titi
+  $ pwd
+  /home/votre-login/toto/titi
+	</textarea>
+
+	<p>
+	  To remove a directory, you can use the command rmdir:
+	  <xfr>
+	    Pour supprimer un dossier,
+	    vous utilisez la commande rmdir (remove-directory).
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="3" >
+  $ cd ~
+  $ rmdir toto 
+	</textarea>
+	<p>
+	  Didn't work, did it? Because you cannot remove a directory
+	  that is not empty, as a safety precaution. You can verify
+	  that "toto" is not empty with the ls command.
+	  Try these commands, everything should work smoothly.
+	  <xfr>
+	    Cela ne marche pas. Par précaution, vous ne pouvez
+	    détruire un dossier qui n'est pas vide. Vous pouvez
+	    facilement vérifier que le dossier toto n'est pas vide
+	    avec la commande ls. Essayez ceci et tout devrait
+	    fonctionner.
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="3" >
+  $ cd toto
+  $ rmdir titi
+  $ cd ..
+  $ rmdir toto
+	</textarea>
+	
+	<div id="footer" >
+	  &copy; Pr. Olivier Gruber
+	  <div id="bottom-links" style="float: right">
+	    <a href="index.html">Home</a> 
+	  </div>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>

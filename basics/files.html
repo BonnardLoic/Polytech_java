@@ -1,0 +1,181 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en-US" >
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Basics Workshop</title>
+    <meta name="CHANGEDBY" content="Pr. Olivier Gruber">
+    <link rel="stylesheet" href="style.css" type="text/css"/> 
+    <script src="common.js"></script>
+  </head>
+
+  <body onload="shellOnLoad()">
+
+    <script>
+      function shellOnLoad() {
+        multiLang();
+      }  
+    </script>
+
+    <div id="outer-container" >
+      <div id="header" >
+	<div id="logo" >
+	  <img src="logo_uga.png" height="100" border="0" alt="Université Grenoble-Alpes" />
+	  <img src="logo_reseau_polytech.gif" height="80" border="0" alt="Polytech" />
+	</div>
+	<div id="top-links">
+	  <a href="index.html">Home</a> 
+	</div>
+      </div>
+      <div id="inner-container" >
+	
+	<h1>About Files</h1>
+	
+	<p>
+	  A file is a sequence of bytes, stored on the mass storage
+	  of your computer. A file can be as small as one byte or
+	  very large with billions of bytes. A file has a name
+	  and resides in a directory.
+	  <xfr>
+	    Un fichier est une séquence d'octets, sur votre disk dure.
+	    Un fichier peux ne contenir qu'un seul octet ou
+	    des milliards. A fichier a un nom et il demeurre dans
+	    un dossier.
+	  </xfr>
+	</p>	
+
+	<h2>Basic Commands</h2>
+
+	<p>
+	  Only a few commands are necessary to know.
+	  <xfr>
+	    Seules quelques commandes suffisent:
+	  </xfr>
+	</p>
+	<ul>
+	  <li> <b>rm</b> (remove): pour détruire un fichier</li>
+	  <li> <b>mv</b> (move): pour renommer ou déplacer un fichiers</li>
+	  <li> <b>cp</b> (copy): pour copier un fichier</li>
+	</ul>
+	
+	<p>
+	  Let's create a directory "toto" in your home and let's go down
+	  in it to play with files.
+	  <xfr>
+	    Nous allons créer un dossier "toto" pour y manipuler des
+	    fichiers.
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="4" >
+  $ cd
+  $ mkdir toto
+  $ cd toto
+  $ ls
+  $
+	</textarea>
+	<p>
+	  As the last command showed you, the directory toto is empty.
+	  Let's create our first file with a line-oriented editor:
+	  <xfr>
+	    Comme la dernière command vous a montré, le dossier toto
+	    est créé vide.
+	    Nous allons créer donc créer note premier fichier,
+	    avec un éditeur en ligne de commande:
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="5" >
+  $ nano tata
+    edit away...
+  $ ls -al
+  -rw-rw-r-- 1 john john 126 sept.  4 10:24 tata
+	</textarea>
+	<p>
+	  The output of the command "ls -al" is a bit complex.
+	  Let's focus on what is important here:
+	</p>
+	<pre>
+	----------  john 126 sept.  4 10:24 tata
+	</pre>
+	<p>
+	  The file is named "tata". It was created September 4th, at 10:24,
+	  by the user "john".
+	  Its size is 126 bytes. Of course, the size will depend on what
+	  you typed when you edited the file.
+	  <xfr>
+	    Le fichier se nomme "tata". Il a été créé le 4 septembre,
+	    à 10:24, par l'utilisateur "john". Sa taille est de 126 octets.
+	    Bien sûr, la taille de votre fichier tata sera probablement différente,
+	    cela dépendra de ce que vous avez tapé dans l’éditeur de texte lors
+	    de sa création.
+	  </xfr>
+	</p>
+	<p>
+	  But how do we remove a file. Easy, just remove it:
+	  <xfr>
+	    Si nous avons créer un fichier, il est clair que l’on souhate
+	    aussi savoir le détruire. C’est facile avec la commande «rm» (remove):
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="2" >	
+  $ rm tata
+	</textarea>
+	<p>
+	  Remember, wherever you use a file name, you can use a full path.
+	  <xfr>
+	    Partout où vous utilisez un nom de fichier,
+	    vous pouvez en général utiliser un chemin complet:
+	  </xfr>
+	<p>
+	<textarea class="terminal" rows="7" >	
+  $ cd ~
+  $ mkdir toto
+  $ nano toto/tata
+  $ ls -al toto/tata
+  …
+  $ rm toto/tata
+	</textarea>
+
+	<p>
+	  Now, it is often useful to be able to change the name of a file
+	  or to move it to a different directory. In fact, you can also
+	  rename a directory or reparent it. All this can be done with
+	  the move command. The command "mv" is well-documented, so use
+	  the manual to know how to use it.
+	  <xfr>
+	    Ensuite, il est souvent utile de pouvoir changer le nom d’un fichier
+	    ou encore de le déplacer d’un dossier à un autre. Parfois,
+	    il est intéressant de faire de même avec les dossiers,
+	    changer leur nom ou les déplacer.
+	    Tout cela se fait avec la commande mv (move).
+	    La commande mv n’est pas complexe à utiliser,
+	    mais il est un peu inutile que nous répétions ici
+	    ce que le manuel en ligne vous donne. Tapez:
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="2" >	
+  $ man mv
+	</textarea>
+
+	<p>
+	  To finish with files, it is often useful to know how to copy
+	  a file. This is done with the command "cp".
+	  <xfr>
+	    Pour terminer, il est souvent utile de copier un fichier.
+	    C’est la commande cp (copy) qu’il faut utiliser.
+	    Encore une fois, utiliser la documentation locale
+	    puis le web si nécessaire:
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="2" >	
+  $ man cp
+	</textarea>
+
+	<div id="footer" >
+	  &copy; Pr. Olivier Gruber
+	  <div id="bottom-links" style="float: right">
+	    <a href="index.html">Home</a> 
+	  </div>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>

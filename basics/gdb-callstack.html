@@ -1,0 +1,470 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en-US" >
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Basics Workshop</title>
+    <meta name="CHANGEDBY" content="Pr. Olivier Gruber">
+    <link rel="stylesheet" href="style.css" type="text/css"/> 
+    <link rel="stylesheet" href="prettify.css" type="text/css" rel="stylesheet" />
+    <script src="prettify.js" type="text/javascript"></script>
+    <script src="common.js"></script>
+  </head>
+
+  <body onload="shellOnLoad()">
+
+    <script>
+      function shellOnLoad() {
+        prettyPrint();
+        multiLang();
+      }  
+    </script>
+
+    <div id="outer-container" >
+      <div id="header" >
+	<div id="logo" >
+	  <img src="logo_uga.png" height="100" border="0" alt="Université Grenoble-Alpes" />
+	  <img src="logo_reseau_polytech.gif" height="80" border="0" alt="Polytech" />
+	</div>
+	<div id="top-links">
+	  <a href="index.html">Home</a> 
+	</div>
+      </div>
+      <div id="inner-container" >
+	
+	<h1>The Call Stack</h1>
+
+	<p>
+	  The debugger is a great tool to follow the execution
+	  of your program, step by step, and understand the
+	  concept of function calls, pushed and popped from the
+	  call stack. But let's start from the beginning.
+	  <xfr>
+	    Le debugger est un outil fantastique pour suivre
+	    l'exécution d'un programme, pas à pas, afin de comprendre
+	    le concept de la pile d'exécution, encore appelée
+	    la pile des appels (call stack).
+	  </xfr>
+	</p>
+
+	<h2>The First Example</h2>
+
+	<p>
+	  Please download
+	  <a href="func1.c">this first program</a>
+	  and save it in a directory called "CallStack".
+	  You can download it and let Ubuntu open it
+	  with the <em>gedit</em> editor. You will need
+	  to use the <em>save-as</em> functionality to
+	  save it in the intended directory called "CallStack".
+	  You can also do it entirely from the command line:
+	  <xfr>
+	    Veuillez télécharger le 
+	    <a href="func1.c">source</a> of this first program
+	    dans un dossier <em>CallStack</em>. 
+	    Vous pouvez choisir de l'ouvrir avec le program
+	    <em>gedit</em>, un editeur de texte, et d'utiliser
+	    le menu <em>save-as</em> pour le sauvegarder
+	    dans le dossier <em>CallStack</em>. Vous pouvez
+	    aussi le faire totalement manuellement:
+	  </xfr>
+	</p>
+	<P>
+	</p>
+	<textarea class="terminal" rows="7" >	
+  $ cd ~
+  $ mkdir CallStack
+  $ cd CallStack
+  $ wget http://localhost:8888/workshops/workshops/basics/func1.c
+  $ gcc -g -o func1 func1.c  
+	</textarea>
+	<p>
+	  Look at the source:
+	</p>
+	<pre class="prettyprint lang-c">
+#include "stdint.h"
+#include "stdio.h"
+
+/*
+ * Voici un déclaration d'une fonction.
+ * Voir la définition plus bas.
+ */
+int32_t bar(int32_t bar_arg);
+
+/*
+ * Voici une fonction "foo", 
+ * avec un seul argument foo_arg.
+ */
+int32_t foo(int32_t foo_arg) {
+  return bar(2*foo_arg);
+}
+
+/*
+ * Voici une autre fonction "bar", 
+ * avec un seul argument "bar_arg". 
+ */
+int32_t bar(int32_t bar_arg) {
+  return bar_arg + 5;
+}
+
+/*
+ * Voici le point d'entree de l'execution.
+ * Toute execution commence toujours par ici.
+ *
+ * mettez un breakpoint sur main avant de faire run sous gdb
+ * Utiliser la commande next pour executer la ligne courante.
+ */
+int32_t main(int32_t argc, char* argv[]) {
+  
+  int32_t value=0;
+
+  // follow the execution with the step command
+  // (gdb) step
+  value = foo(5);
+    
+  return 0;
+}
+	</pre>
+	<p>
+	  Rather than a long explanation, let's execute
+	  it and follow the execution via the debugger,
+	  step by step.
+	</p>
+	<textarea class="terminal" rows="15" >	
+  john:CallStack$ gdb func1
+  GNU gdb (Ubuntu 7.11.1-0ubuntu1~16.5) 7.11.1
+  ...
+  Reading symbols from func1...done.
+  (gdb) br main
+  Breakpoint 1 at 0x40050d: file func1.c, line 37.
+  (gdb) run
+  Starting program: /homex/john/CallStack/func1 
+  Breakpoint 1, main (argc=1, argv=0x7fffffffdcd8) at func1.c:37
+  37	  value = foo(5);
+  (gdb) step
+  foo (foo_arg=5) at func1.c:13
+  13	  return bar(2*foo_arg);
+	</textarea>
+	<p>
+	  So this is what a function call looks like at runtime.
+	  In the function <em>main</em>, we have the call site,
+	  that is, the place where the call takes place.
+	  This is line 37, with a call to the function <em>foo</em>
+	  with the parameter 5. The value of the parameter (5)
+	  is copied to the argument, called <em>foo_arg</em>.
+	  Then, the execution flows to the first line of the
+	  function <em>foo</em>, line 13.
+	  <xfr>
+	    Vous voyez là un appel de fonction. Dans la fonction
+	    <em>main</em>, vous avez le site de l'appel, c'est
+	    à dire l'endroit dans le source où l'appel se produit.
+	    Dans notre cas, c'est à la ligne 37, avec un appel
+	    à la fonction <em>foo</em>, avec la valeur 5.
+	    Cette valeur est d'abord copié dans l'argument
+	    <em>foo_arg</em>, puis l'exécution saute à la première
+	    ligne de la fonction appelée, qui est
+	    la fonction <em>foo</em>.
+	  </xfr>
+	</p>
+	<p>
+	  We can print the argument <em>foo_arg</em>, like
+	  this, confirming the value 5:
+	</p>	
+	<textarea class="terminal" rows="3" >
+  (gdb) print foo_arg
+  $1 = 5
+	</textarea>
+	<p>
+	  We are again at a call site, so a step will take
+	  us to the called function. The value of the parameter
+	  is 2*foo_arg, so the value will be 10=2*5.
+	  <xfr>
+	    Nous sommes de nouveau à un site d'appel, donc,
+	    si nous donnons la commande "step" à gdb, nous
+	    allons de nouveau suivre l'appel et nous retrouver
+	    dans l'appel de <em>bar</em>. La valeur passée en
+	    paramêtre est 2*foo_arg, soit la valeur 10=2*5.
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="5" >	
+  (gdb) step
+  bar (bar_arg=10) at func1.c:21
+  21	  return bar_arg + 5;
+  (gbd)
+	</textarea>
+	<p>
+	  Let's confirm where we are, that is, where is the execution
+	  of our program stopped at.
+	  <xfr>
+	    Confirmons où nous sommes, c'est à dire, où l'exécution
+	    est arrêtée.
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="5" >	
+  (gdb) where
+  #0  bar (bar_arg=10) at func1.c:23
+  #1  0x00000000004004ed in foo (foo_arg=5) at func1.c:15
+  #2  0x0000000000400517 in main (argc=1, argv=0x7fffffffdcd8) at func1.c:39
+  (gdb) 
+	</textarea>
+	<p>
+	  So we are in the function <em>bar</em>, line 23,
+	  called
+	  by the function <em>foo</em>, line 15,
+	  itself called by
+	  the function <em>main</em>,
+	  line 39. This is the call stack,
+	  that is, the list of calls currently executing.
+	  <xfr>
+	    L'exécution est arrêtée dans la fonction <em>bar</em>,
+	    ligne 23, appelée depuis la fonction <em>foo</em>,
+	    ligne 15, elle-même appelée par la fonction <em>main</em>
+	    ligne 339. C'est succession d'appels est votre pile d'appels.
+	  </xfr>
+	</p>
+	<p>
+	  See, each time there is a function call,
+	  the execution flows to that function,
+	  executing the code of that function.
+	  The command <em>where</em> displays the call stack,
+	  with the last call on top.
+	  <xfr>
+	    Vous voyez, chaque fois qu'une fonction est appelée,
+	    l'exécution se poursuit dans le code de cette fonction,
+	    rajoutant un appel sur la pile des appels. La commande
+	    <em>where</em> demande au debugger d'afficher la pile
+	    des appels dans sa console, en commencant par le
+	    dernier appel.
+	  </xfr>
+	</p>
+	<p>
+	  You can see that the debugger gives you the values of the
+	  arguments for all calls currently on the call stack.
+	  That is pretty cool.
+	  Let's learn how to navigate the call stack and
+	  print the values of arguments manually.
+	  <xfr>
+	    Vous pouvez voir que le debugger vous donne aussi les
+	    valeurs des arguments pour tous les appels qui sont
+	    sur la pile des appels. Voyons maintenant comment
+	    naviguer cette pile et afficher les valeurs des
+	    différents arguments.
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="5" >	
+  (gdb)
+  (gdb) print bar_arg
+  $2 = 10
+	</textarea>
+	<p>
+	  We are currently executing the function <em>bar</em>.
+	  We can print the argument of the function with
+	  the command <em>print</em>.
+	  <xfr>
+	    Pour l'instant, l'exécution est suspendue
+	    dans la fonction <em>bar</em>. Vous pouvez
+	    afficher l'argument <em>bar_arg</em> avec
+	    la commande <em>print</em>.
+	  </xfr>
+	</p>
+	<p>
+	  Let's go up the stack, visit the call of the function foo.
+	  Indeed, gdb maintains a notion of the <em>current call</em>
+	  in order to interpret your commands. Exactly like a shell
+	  keeps the concept of the current directory.
+	  <xfr>
+	    Vous pouvez remonter la pile des appels avec la commande
+	    <em>up</em>. En effet, le debugger maintient l'appel
+	    courant pour interpréter les commandes, un peu comme
+	    le shell garde le directory courant pour interpréter vos
+	    commandes.
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="8" >	
+  (gdb) up
+  #1  0x00000000004004ed in foo (foo_arg=5) at func1.c:15
+  13	  return bar(2*foo_arg);
+  (gdb) p foo_arg
+  $2 = 5
+  (gdb) p bar_arg
+  No symbol "bar_arg" in current context.
+	</textarea>
+	<p>
+	  So we moved up to the call of the foo function.
+	  We can print the variable "foo_arg" but we can
+	  no longer print the variable "bar_arg". This is
+	  quite normal, the debugger only shows you
+	  the arguments that are visible. In a call to
+	  the function foo, the values of the arguments
+	  of a call to the function bar are not visible.
+	  <xfr>
+	    Ainsi le debugger considère maintenant l'appel
+	    de la fonction <em>foo</em> comme l'appel courant.
+	    Vous pouvez afficher l'argument "foo_arg" mais
+	    vous ne pouvez plus afficher l'argument "bar_arg".
+	    C'est tout à fait normal, puisque le debugger respecte
+	    les règles de visibilité. Depuis le code de la fonction
+	    <em>foo</em>, l'argument de la fonction <em>bar</em>
+	    n'est pas visible.
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="7" >	
+  (gdb) up
+  #2  0x0000000000400517 in main (argc=1, argv=0x7fffffffdcd8) at func1.c:39
+  37	  value = foo(5);
+  (gdb) p value
+  $3 = 0
+  (gdb) 
+	</textarea>
+	<p>
+	  We went up again, we have placed the debug in the
+	  call to the function main. Now we can go down,
+	  back to the call of the bar function.
+	  <xfr>
+	    Nous avons demandé à gdb de remonter d'un appel,
+	    il considère maintenant la fonction <em>main</em>
+	    comme courante. Veuillez maintenant redescendre
+	    la pile des appels vers l'appel de la fonction
+	    <em>bar</em> où l'exécution est suspendue.
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="7" >	
+  (gdb) down
+  #1  0x00000000004004ed in foo (foo_arg=5) at func1.c:15
+  15	  return bar(2*foo_arg);
+  (gdb) down
+  #0  bar (bar_arg=10) at func1.c:23
+  23	  return bar_arg + 5;
+  (gdb) 
+	</textarea>
+	<p>
+	  Now you can continue to single step the execution
+	  and watch the call stack unroll, as the function
+	  calls return. Keep using the commands <em>step</em>.
+	  If you are not sure of where you are,
+	  use the command <em>where</em>.
+	  <xfr>
+	    Vous pouvez maintenant continuer l'exécution pas-à-pas
+	    et voir la pile des appels se réduire avec chaque
+	    retour de fonction. Pour cela, utilisé la commande
+	    step pour avancer et la commande where pour voir la
+	    pile.
+	  </xfr>
+	</p>
+	<p>
+	  So, what is the final value of the variable <em>value</em>?
+	  But what is a variable by the way? That our next learning step.
+	  <xfr>
+	    Pouvez donner la valeur finale de la variable <em>value</em>.
+	    Mais qu'est-ce qu'une variable? C'est le sujet de notre
+	    prochaine exploration.
+	  </xfr>
+	</p>
+
+	<h2>Nicer Interface</h2>
+
+	<p>
+	  The line-oriented interface of the debugger is powerful
+	  and really good to know, but sometimes, it is hard to
+	  follow the execution step by step. One needs a broader
+	  view of the executing source.
+	  <xfr>
+	    L'interface orientée-ligne du debugger est puissante
+	    et très utile à connaitre, mais parfois, il est difficile
+	    de bien suivre l'exécution pas-à-pas. Il faut souvent
+	    un vue plus large du source, la seule vue de la ligne
+	    courante étant insuffisante.
+	  </xfr>
+	</p>
+	<p>
+	  First, grow you terminal window, may be like full height
+	  and half width of the screen.
+	  <b>
+	    It is very important to do it now, not later
+	  </b>.
+	  Then, ask the debugger a split view, half source and half
+	  prompt. This is is best achieved with
+	  the following command:
+	  <xfr>
+	    Mais avant toute chose, pensez à aggrandir la fenêtre
+	    de votre terminal. Ensuite, demandez au debugger de
+	    changer d'organisaton de sa fenêtre:
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="3" >	
+  (gdb) layout src
+  (gdb) run
+	</textarea>
+	<p>
+	  And there you have it, your source in plain view.
+	  That's is just great, isn't it? The terminal window
+	  should look like this:
+	</p>
+	<img src="gdb-gui-src.png" width="60%"/>
+	<p>
+	   We suggest that you redo
+	  the previous execution in this mode, to see how
+	   it works.
+	   <xfr>
+	     Nous vous suggérons fortement de refaire
+	     l'exécution que nous venons de commenter,
+	     dans ce mode d'affichage du debugger.
+	   </xfr>
+	</p>
+
+	<h2>Advanced Interface</h2>
+
+	<p>
+	  For more advanced users, <em>gdb</em> is capable
+	  of showing different layout, mixing different views.
+	  You can cycle through the views with this command:
+	</p>
+	<textarea class="terminal" rows="3" >	
+  (gdb) layout next
+	</textarea>
+	<p>
+	  Notice the view showing you both the C source,
+	  the assembly instructions, and the binary. You
+	  have it all with this view.
+	</p>
+	<img src="gdb-gui-all.png" width="60%"/>
+	<p>
+	  You can single step
+	  each assembly instruction:
+	</p>
+	<textarea class="terminal" rows="3" >	
+	  (gdb) stepi
+	  (gdb) nexti
+	</textarea>
+	<p>
+	  You can also print the registers of your processor,
+	  with the following command:
+	</p>
+	<textarea class="terminal" rows="3" >	
+	  (gdb) info registers
+	</textarea>
+	<p>
+	  You can also print indivual registers.
+	  To print the register named "eax", in decimal:
+	</p>
+	<textarea class="terminal" rows="3" >	
+	  (gdb) print $eax
+	</textarea>
+	<p>
+	  But most of the time, you want to see the
+	  hexadecimal value of your registers:
+	</p>
+	<textarea class="terminal" rows="3" >	
+	  (gdb) print /x $eax
+	</textarea>
+	
+	
+	<div id="footer" >
+	  &copy; Pr. Olivier Gruber
+	  <div id="bottom-links" style="float: right">
+	    <a href="index.html">Home</a> 
+	  </div>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>

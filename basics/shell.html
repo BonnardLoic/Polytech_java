@@ -1,0 +1,334 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en-US" >
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Basics Workshop</title>
+    <meta name="CHANGEDBY" content="Pr. Olivier Gruber">
+    <link rel="stylesheet" href="style.css" type="text/css"/> 
+    <script src="common.js"></script>
+  </head>
+
+  <body onload="shellOnLoad()">
+
+    <script>
+      function shellOnLoad() {
+        multiLang();
+      }  
+    </script>
+
+    <div id="outer-container" >
+      <div id="header" >
+	<div id="logo" >
+	  <img src="logo_uga.png" height="100" border="0" alt="Université Grenoble-Alpes" />
+	  <img src="logo_reseau_polytech.gif" height="80" border="0" alt="Polytech" />
+	</div>
+	<div id="top-links">
+	  <a href="index.html">Home</a> 
+	</div>
+      </div>
+      <div id="inner-container" >
+	
+	<h1>Shell Basics</h1>
+	
+	<p>
+	  Welcome to shell basics.
+	  <xfr>
+	    Bienvenue pour une découverte des bases
+	    de l'utilisation du shell sous Linux.
+	  </xfr>
+	</p>
+	<p>
+	  First, what is a shell? A shell is a regular Linux program
+	  whose purpose is to provide you with a line-oriented command
+	  interface. To access a shell, you open a terminal window.
+	  On the UFR machines, in the classroom, you can open a
+	  terminal by a right-click on the desktop background.
+	  A terminal window looks like this:
+	  <xfr>
+	    Tout d'abord, qu'est-ce qu'un shell. C'est un programme
+	    comme un autre sous Linux. Son but est de vous offrir
+	    une interface orientée ligne de commande. Pour avoir accès
+	    à un shell, il suffit d'ouvrir une fenêtre d'un "terminal".
+	    Cela se fait par un clique-droit sur le fond du desktop.
+	    Un fenêtre d'un "terminal" ressemble à ceci:
+	  </xfr>
+	</p>
+	<img src="terminal.png" width="60%"/>
+	<p>
+	  Once the terminal window is open, you get the prompt
+	  of the shell. You are in business, you can type aways
+	  commands. The shell is essentially an interpretor
+	  of the commands you will type.
+	  <xfr>
+	    Une fois que vous avez une fenêtre d'un terminal ouverte,
+	    vous voyez le "prompt" du shell. Vous pouvez taper vos
+	    commandes qui seront interpretées pas le shell.
+	  </xfr>
+	</p>
+	<p>
+	  <b>A Word of WARNING</b>. Shell commands are powerfull and
+	  therefore may harm your computer. So be cautious and think
+	  twice before hitting enter.
+	  <xfr>
+	    <b>ATTENTION</b>. Les commandes du shell sont puissantes
+	    et elles peuvents endommager votre machine (perte de données,
+	    impossibilité de vous connecté, etc.). Soyez prudent et
+	    toujours bien vérfier vos commandes avant de les valider
+	    avec la touche "enter".
+	  </xfr>
+	</p>
+
+	<h2>Find Help</h2>
+
+	<p>
+	  Knowning how to find help is crucial, but being autonomous
+	  is also equally important. It is a subtle balance between
+	  asking too many questions and asking not enough. This is also
+	  a question of methodology.
+	  <xfr>
+	    Savoir trouver de l'aide est crucial, mais être autonome
+	    est tout aussi important. C'est une question d'équilibre
+	    entre poser trop de questions ou pas assez.
+	  </xfr>
+	</p>
+	<p>
+	  For almost everything in Linux, there is documentation
+	  available. Before going wandering across the Web, please
+	  try the documentation that is locally available on your
+	  machine. The planet will thank you since it reduces the
+	  carbon dioxide emission due to the Web. Also, the local
+	  documentation is the correct one and it is up to date.
+	  To get help,
+	  let's say on a command called <em>ls</em>, simply type
+	  the following:
+	  <xfr>
+	    Et vous obtenez la documentation complète de la commande.
+	    Toutes les commandes du shell sont ainsi décrites dans
+	    la documentation qui est installée sur la machine Linux
+	    que vous utilisez. Pensez toujours à faire «man» avant
+	    de faire Google… C’est écologique car cela ne demande pas
+	    de faire appel à l’infrastructure de l’internet, augmentant
+	    la facture énergétique du Web et donc les emissions de CO2.
+	    Mais aussi, la documentation locale est la bonne,
+	    elle est à jour, et souvent bien plus claire que ce
+	    que vous trouverez sur le Web. Bien sûr, comme vous
+	    le savez parfaitement, le Web est un complément formidable,
+	    ne vous en privez pas.
+	    Pour obtenir de l'aide localement, pour une commande
+	    appelée <em>ls</em>, tapez:
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="2" width="60%" >
+ $ man ls
+	</textarea>
+	<p>
+	  Nothing simpler. Of course, you may also go to the Web
+	  and search answers through your favorite search engines.
+	  But do not forget that learning is best approach as a team
+	  effort, so ask your camarades and the teaching staff.
+	  <xfr>
+	    Vous pouvez bien sûr aussi aller sur la toile et chercher
+	    des réponses par le biais de vos moteurs de recherche
+	    favoris. Mais n'oubliez pas que l'apprentissage est plus
+	    efficace à plusieurs, demandez à vos camarades et vos enseignants.
+	  </xfr>
+	</p>
+
+	<h2>Login and Home</h2>
+
+	<p>
+	  If you are here, that means you logged on a machine
+	  already. A Linux machine is a multi-user machine, this means
+	  that more than one user can log on one single machine,
+	  at the same time. But do not worry, Linux makes sure
+	  that different users can work independently and enjoy
+	  complete privacy.
+	  <xfr>
+	    Une machine linux est une machine mutli-utilisateur,
+	    ce qui veux dire que plusieurs utilisateurs peuvent
+	    partager une seule machine. Mais ne vous inquiétez pas,
+	    Linux (tout comme Windows d'ailleurs) est conçu pour
+	    cela, il isole les différents utilisateurs.
+	  </xfr>
+	</p>
+	<p>
+	  As you know, you have a login name. That login name
+	  is unique. Also, you have a <b>home</b> directory,
+	  that is yours and yours alone. Assuming your login
+	  is "john", your home is likely the directory /home/john.
+	  <xfr>
+	    Comme vous le savez, vous avez un nom de login et ce nom
+	    est unique. Vous avez aussi un dossier <b>home</b>,
+	    qui vous est réservé. Par exemple, si votre nom
+	    de login est "john", votre dossier home est le
+	    dossier /home/john.
+	  </xfr>				
+	</p>
+	<p>
+	  <b>Note: </b>
+	  For those that are already familiar with Linux and
+	  shells, you may want to read about access control
+	  on files and directories
+	  <a href="acl.html">here</a>.
+	  If you are a beginner, you may want to skip it
+	  and come back to it later.
+	  <xfr>
+	    Pour ceux qui connaissent Linux et le shell,
+	    vous seriez probablement intéressés par lire
+	    cette <a href="acl.html">page</a> sur les
+	    droits d'accès aux fichiers et dossiers.
+	    Si vous êtes débutant sous linux, il serait mieux
+	    d'y revenir plus tard.
+	  </xfr>
+	</p>
+
+	<h2>First Thing First</h2>
+
+	<p>
+	  Be nice to yourself and change the prompt of your shell.
+	  Trust us, you will want to do it. If you are not sure,
+	  this can wait. In a shell, just type the following line,
+	  <b>exactly</b> as it is typed, with all the spaces and
+	  the weird characters:
+	  <xfr>
+	    Soyez sympa avec vous-même, facilitez vous la vie
+	    en changeant le prompt de votre shell.
+	    Pour cela, si vous le souhaitez, taper <b>exactement</b>
+	    la ligne suivante, avec les espaces et les caractères
+	    bizarres:
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="2" >
+ $ export PS1='\u:\W$ '
+ john:~$ 
+	</textarea>
+	<p>
+	  Now you can enjoy a usable shell. Have fun.
+	</p>
+	<p>
+	  Later on, if you want to make this change permanent,
+	  you can add the above line to your setup file
+	  in "~/.bashrc". But this is for later, once you get
+	  acustomed to using Linux. You may also ask for help
+	  from someone who knows how to do it.
+	  <xfr>
+	    Si vous souhaitez rendre cette modification
+	    permanente, vous pouvez la rajouter au script
+	    de configuration de votre shell "~/.bashrc".
+	    Si c'est encore un peu difficile pour vous,
+	    vous le ferez plus tard, ou bien demandez un
+	    peu d'aide pour le faire.
+	  </xfr>
+	</p>
+
+	<h2>Principal Commands</h2>
+
+	<p>
+	  The principal commands you will need to learn
+	  are either related to the environment,
+	  manipulating the file
+	  system or processes:
+	  <xfr>
+	    Les commandes principales que vous devrez apprendre
+	    concernent soit l'environnement, le système de fichier soit la
+	    gestion des processus:
+	  </xfr>
+	</p>
+
+	<ol>
+	  <li>Environment<br>
+	    <ul>
+	      <li><b>whoami</b>: prints the current user.</li>
+	      <li><b>exit</b>: exits the shell</li>
+	      <li><b>ctrl-d</b>: hitting ctrl-d exits the shell</li>
+	      <li><b>ctrl-c</b>: hitting ctrl-c kills the currently
+		executing program</li>
+	    </ul>
+	  </li>
+	  <li>File System Commands<br>
+	    <ul>
+	      <li><b>pwd</b>: prints the Workding directory.</li>
+	      <li><b>cd</b>: changes the current directory</li>
+	      <li><b>mkdir</b>: make (create) a new directory</li>
+	      <li><b>rmdir</b>: remove a directory</li>
+	      <li><b>rm</b>: remove files and directories</li>
+	      <li><b>mv</b>: move a file or directory</li>
+	      <li><b>cp</b>: copy a file or directory</li>
+	      <li><b>cat</b>: to dump a file on the screen</li>
+	      <li><b>more</b>: to print a file, per page, on the screen</li>
+	    </ul>
+	  </li>
+	  <li>Process-related Commands<br>
+	    <ul>
+	      <li><b>ps></b>: prints currently running processes </li>
+	      <li><b>kill></b>: kill a process </li>
+	      <li><b>top></b>: looks at process resource consumption </li>
+	    </ul>
+	  </li>
+	</ol>
+
+	<h2>File System</h2>
+
+	<p>
+	  We expect that you are already familiar with the concept
+	  of a file system, since we assume you have used a computer
+	  before. The file system is the organization of your mass
+	  storage, the persitent storage that keeps all your data
+	  safe when your machine is powered off.
+	  <xfr>
+	    Nous ferons l'hypothèse que vous êtes déjà familier
+	    avec un système de fichier, puisque nous ferons l'hypothèse
+	    que vous avez déjà tous utiliser un ordinateur.
+	</p>
+	<p>
+	  The file system is organized as a tree of directories,
+	  in which you may have files. A file is essentially a
+	  sequence of bytes. It may contain bytes that are encoding
+	  characters, hence contain text that is readable by a human,
+	  once decoded. It may contain bytes that encode a video or
+	  an image or music. And of course, it may contain binary encoding
+	  a program that can be executed.
+	  <xfr>
+	    The système de fichier est organisé comme un arbre
+	    de dossiers, avec chaque dossier pouvant contenir des fichiers.
+	    Un fichier est essentiellement une séquence d'octets.
+	    Par exemple, un fichier peut contenir des octets qui
+	    encodent des caractères, d'où contenir du texte qui
+	    soit lisible par un être humain. Un fichier peut ausi
+	    contenir des octets qui encodent une vidéo ou une
+	    image ou de la musique. Bien sûr, il peut aussi contenir
+	    du binaire encodant un programme qui peut être exécuter.
+	</p>
+
+	<ol>
+	  <li><a href="directories.html">Basics on directories</a></li>
+	  <li><a href="files.html">Basics on files</a></li>
+	</ol>
+
+	<h2>Processes</h2>
+
+	<p>
+	  Linux knows about directories, files, and processes.
+	  Directories and files are for storing data.
+	  Processes are for the execution of programs.
+	  <xfr>
+	    Linux connait les concepts de dossiers, fichiers,
+	    et process. Les dossiers et les fichiers sont
+	    pour la sauvegarde des données, les processus sont
+	    dédiés à l'exécution de programmes.
+	  </xfr>
+	</p>
+	<ol>
+	  <li><a href="process.html">About Processes</a></li>
+	</ol>
+	    
+	<div id="footer" >
+	  &copy; Pr. Olivier Gruber
+	  <div id="bottom-links" style="float: right">
+	    <a href="index.html">Home</a> 
+	  </div>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>

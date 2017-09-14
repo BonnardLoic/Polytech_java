@@ -1,0 +1,831 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en-US" >
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Basics Workshop</title>
+    <meta name="CHANGEDBY" content="Pr. Olivier Gruber">
+    <link rel="stylesheet" href="style.css" type="text/css"/> 
+    <link rel="stylesheet" href="prettify.css" type="text/css" rel="stylesheet" />
+    <script src="prettify.js" type="text/javascript"></script>
+    <script src="common.js"></script>
+  </head>
+
+  <body onload="shellOnLoad()">
+
+    <script>
+      function shellOnLoad() {
+        prettyPrint();
+        multiLang();
+      }  
+    </script>
+
+    <div id="outer-container" >
+      <div id="header" >
+	<div id="logo" >
+	  <img src="logo_uga.png" height="100" border="0" alt="Université Grenoble-Alpes" />
+	  <img src="logo_reseau_polytech.gif" height="80" border="0" alt="Polytech" />
+	</div>
+	<div id="top-links">
+	  <a href="index.html">Home</a> 
+	</div>
+      </div>
+      <div id="inner-container" >
+
+	<h1>Variables and Pointers</h1>
+
+	<p>
+	  The debugger is a great tool to understand what
+	  variables are about and in particular local
+	  variables.
+	  <xfr>
+	    Le debugger est aussi un outil formidable pour
+	    comprendre ce que sont les variables dans un
+	    programme.
+	  </xfr>
+	</p>
+
+	<h2>Variables</h2>
+	
+	<p>
+	  A variable is a symbolic name given to an address
+	  in memory. The content of the variable is in fact
+	  the content of the memory region named by the variable.
+	  <xfr>
+	    Une variable est en fait un nom symbolic donnée
+	    à une adresse en mémoire. Le contenu de la variable
+	    est le contenu de la région mémoire qui est nommée
+	    par cette variable.
+	  </xfr>
+	</p>
+	<p>
+	  Often, you will here developers say that the content
+	  of a variable is a value. This is just a shorter way
+	  of saying the same thing.
+	  <xfr>
+	    Souvent, vous allez entendre développeurs parler du
+	    contenu d'une variable comme si elle était un conteneur.
+	    C'est juste un racourci de langage. Une variable
+	    est toujours un nom symbolic pour une adresse en
+	    mémoire. Le contenu est toujours celui de la zone
+	    en mémoire.
+	  </xfr>
+	</p>
+	<pre class="prettyprint lang-c">
+	  int32_t v = 12;
+	</pre>
+	<p>
+	  Here, we have a variable "v". We can say that we
+	  assign the value 12 to that variable. But in fact,
+	  what happens is the following. The variable "v"
+	  names a memory region, let's say at the
+	  address 0x456721. The processor stores the value
+	  12 in that memory region.
+	  <xfr>
+	    Ici nous avons une variable "v". Nous pouvons dire
+	    que nous assignons la valeur 12 à cette variable.
+	    Ce que cela veut dire est que la valeur 12 sera
+	    sauvegardée dans la zone mémoire nommée par la valeur v.
+	  </xfr>
+	</p>
+	<pre class="prettyprint lang-c">
+	  int32_t v = 12;
+	  int32_t w = v;
+	</pre>
+	<p>
+	  In the second line is an assignment between variables.
+	  The value of the variable v is stored in the variable w.
+	  Of course, what really happens is this. The variable v
+	  names a region in memory and the value stored there is
+	  read by the processor. That value is then stored in the
+	  memory region named by the variable w.
+	  <xfr>
+	    La seconde ligne est aussi une assignation, cette fois-ci
+	    entre deux variables. La valeur de la variable v (à droite
+	    du signe =) est copiée dans la variable w (à gauche
+	    du signe =). Bien sûr, cela veut dire que votre processeur
+	    va lire la valeur de la zone mémoire nommée par la variable
+	    v et l'écrire dans la zone mémoire nommée par la variable
+	    w.
+	  </xfr>
+	<p>
+	<p>
+	  If we assume that the variable v names the address 0x456721
+	  and that the variable w names the address 0x985563, we could
+	  as well write the following:
+	  <xfr>
+	    En faisant l'hypothėse que la variable v nomme l'adresse
+	    0x456721 et que la variable w nomme l'adresse 0x985563,
+	    nous aurions pu écrire ce qui suit:
+	  </xfr>
+	</p>
+	<pre class="prettyprint lang-c">
+	  *0x456721 = 12;
+	  *0x985563 = *0x456721; 
+	</pre>
+	<p>
+	  We could almost write the above line. The problem
+	  is that the compiler would not know the size of the
+	  memory regions. Should it write 12 over one byte,
+	  two, four, or 8 bytes? Why? Because the processor
+	  can write in one instruction one or several bytes.
+	  This corresponds to the different sizes of
+	  integer values:
+	  <xfr>
+	    En fait pas tout à fait. Le problème est que le
+	    compilateur ne connait pas la taille de la zone
+	    mémoire à copier. La valeur 12, doit-elle être
+	    écrite sur 1 octet, deux octets, quatre octets,
+	    ou même 8 octets? Pourquoi cette question? Parce
+	    que votre processeur peut lire et écrire la mémoire
+	    a différent granularité et que le code binaire
+	    est différent en fonction de cette granularité.
+	  </xfr>
+	</p>
+	<pre class="prettyprint lang-c">
+	  int8_t a_byte = 12;
+	  int16_t a_short = 12;
+	  int32_t a_integer = 12;
+	  int64_t a_long_integer = 12;
+	</pre>
+	<p>
+	  At the first line, only one byte is written in memory.
+	  At the last line, a full 8 bytes are written in memory.
+	  The difference is the <b>type</b> of the variable,
+	  given at the left of the variable name. The type tells
+	  the compiler what the memory region named by the variable
+	  looks like.
+	  <xfr>
+	    La première ligne, seulement un octet est écrit en mémoire.
+	    La dernière ligne, 8 octets sont écrits en mémoire.
+	    La différence entre les lignes est le <b>type</b> de la
+	    variable, qui apparait à gauche du nom de la variable.
+	    Le type d'une variable dit au compilateur quelle est
+	    la taille de la zone mémoire nommée par cette variable.
+	  </xfr>
+	</p>
+	<pre class="prettyprint lang-c">
+	  *(int32_t*)0x456721 = 12;
+	  *(int32_t*)0x985563 = *(int32_t*)0x456721; 
+	</pre>
+	<p>
+	  This will compile because we have given a type to
+	  the addresses. Now the compiler knows that the
+	  memory regions are 4-byte long (32bits).
+	  Notice the notation (int32_t*) and not (int32_t).
+	  Both are valid in C. The first gives a type to
+	  an address (because of the *) and the second
+	  gives a type to a value. So we could write:
+	  <xfr>
+	    Ce code va être compilé correctement parce que
+	    nous avons typé les adresses. Maintenant le
+	    compilateur sait que nous voulons manipuler
+	    des zones mémoires de 4 octets.
+	    Notez la notation (int32_t*) et non pas (int32_t).
+	    Les deux sont valables en C. La première donne
+	    un type à une adresse, la seconde donne un type
+	    à une valeur.
+	  </xfr>
+	</p>
+	<pre class="prettyprint lang-c">
+	  *(int32_t*)0x456721 = (int32_t)12;
+	  *(int32_t*)0x985563 = *(int32_t*)0x456721; 
+	</pre>
+	<p>
+	  Now the compiler knows it all. It knows that
+	  the value 12, even though it is small enough
+	  to fit in a byte, should be consider as a value
+	  on 32 bits.
+	  <xfr>
+	    Maintenant le compilateur a toutes les informations
+	    nécessaires. Il a le type de la valeur 12 (int32_t)
+	    et il a le type des adresses (int32_t*).
+	  </xfr>
+	</p>
+	
+	  <b>First TODO:</b>
+	  </p><p>
+	  Let's look at variables in practice.
+	</p>
+	<p>
+	  Download this
+	  <a href="func2.c">source file</a>, compile it, and then
+	  execute it under debugger.
+	</p>
+	<p>
+	  See how the local
+	  variables are defined in the functions <em>foo</em>
+	  and <em>bar</em>.
+	</p>
+	<p>
+	  <b>Second TODO:</b>
+	  </p><p>
+	  Look at this
+	  <a href="fact.c">implementation</a> of
+	  the factorial function, to see a real usage.
+	</p>
+	<p>
+	  Download the file, compile it, and then
+	  execute it under debugger.
+	</p>
+
+	<h2>Pointers</h2>
+	
+	<p>
+	  But how do we know the memory region named by
+	  the variable "v"? We use the operator "&".
+	  In our example, since we said the variable
+	  v names the memory region at the address 0x456721,
+	  "&amp;v" means the address 0x456721.
+	  We can define a pointer variable, named "vpt",
+	  to hold that address. Just like this:
+	  <xfr>
+	    Mais comment savoir l'adresse de la region mémoire
+	    que nomme la variable "v"? Vous pouvez utiliser
+	    l'opérateur "&". Dans notre example, puisque
+	    que nous avons dit que la variable "v" nomme la
+	    région mémoire à l'adresse 0x456721,
+	    "&amp;v" corresponds à l'address 0x456721.
+	    Nous pouvons définir une variable dite <em>pointeur</em>
+	    pour conserver cette adresse:
+	  </xfr>
+	</p>
+	<pre class="prettyprint lang-c">
+	  int32_t v = 12;
+	  int32_t* vpt = &v;
+	</pre>
+	<p>
+	  We still have the variable "v" and it still
+	  names the memory region at 0x456721.
+	  Therefore, the value of the pointer variable
+	  "vpt" is 0x456721. Let's look at the following
+	  lines of code using these variables:
+	  <xfr>
+	    Nous avons toujours la variable "v" and il
+	    nomme toujours la région de la mémoire à
+	    l'adresse 0x456721. Aussi, la valeur de la
+	    variable "vpt"  est 0x456721.
+	    Voyons un cas d'usage:
+	  </xfr>
+	</p>
+	<pre class="prettyprint lang-c">
+(1)	  v = 12;
+(2)	  *&v = 12;
+(3)	  *vpt = 12;
+	</pre>
+	<p>
+	  As explained before, the first line is assigning
+	  the value 12 to the variable v.
+	  The second line is first taking the address of the
+	  variable v, which is in fact the address that the
+	  memory region named by the variable v. As we just
+	  said, that address is 0x456721. Then it uses
+	  that address to store the value 12.
+	  Look below at how to interpret the second line.
+	  <xfr>
+	    Comme nous l'avons dit plus haut, la première ligne
+	    assigne la valeur 12 à la variable "v".
+	    La seconde ligne prends l'adresse de la zone nommée
+	    par la variable "v" puis l'assigne à la variable
+	    vpt. Cela veut dire que l'adresse est écrite
+	    dans la zone mémoire nommée par la variable vpt.
+	    Un variable pointeur est une variable comme une autre.
+	  </xfr>
+	</p>
+	<p>
+	</p>
+	<pre class="prettyprint lang-c">
+(2)	  *&v = 12;
+       -> *(&v) = 12;
+       -> *(0x456721) = 12;
+       -> *0x456721 = 12;
+       -> v = 12;
+	</pre>
+	<p>
+	  The meaning of *0x456721 is to use the address as
+	  the address of the memory region where to store the value 12.
+	  Since it is the address that the variable v names,
+	  it is equivalent to storing 12 in the variable v.
+	  <xfr>
+	    Le sens de l'expression *0x456721 est d'écrire
+	    à cette adresse la valeur 12. Puisque l'adresse
+	    est celle nommée par la variable "v", cela est
+	    équivalent à faire une assignation dans la variable
+	    "v".
+	  </xfr>
+	</p>
+	<p>
+	  The third line is using the pointer variable, but
+	  again does the same. Look below at how to interpret
+	  that third line, knowing that the value of the variable
+	  vpt is the address 0x456721:
+	  <xfr>
+	    La troisième ligne utilise la variable pointeur, mais
+	    fait encore la même chose, écrire la valeur 12 dans la
+	    variable v. Regarder ci-dessous comment interpreter
+	    cette troisième ligne, en sachant que la valeur de
+	    la variable vpt est l'adresse 0x456721: 
+	  </xfr>
+	</p>
+	<pre class="prettyprint lang-c">
+(3)	  *vpt = 12;
+       -> *(vpt) = 12;
+       -> *(0x456721) = 12;
+       -> *0x456721 = 12;
+       -> v = 12;
+	</pre>
+	<p>
+	  <b>Third TODO:</b>
+	</p><p>
+	  Let's look at pointer variables in practice.
+	  </p><p>
+	  Download this
+	  <a href="func3.c">file</a>, compile it, and then
+	  execute it under debugger.
+	</p><p>
+	  See how the local
+	  variables are defined along with matching pointer
+	  variables.
+	  <b>
+	    Follow the instructions
+	    given in the comments in the source.
+	  </b>	    
+	    Remember, they are easier to see if you
+	    put gdb in a layout with the source view.
+	    Use the command: (gbd) layout src
+	</p>
+	<p>
+	  <b>Nota Bene:</b> this program is really a teaching aid,
+	  not really an example of how it should be done.
+	  Don't worry, you will see plenty of real pointer
+	  usage, soon enough.
+	  <xfr>
+	    <b>Nota Bene:</b> ce program est une aide pédagogique,
+	    pour mieux comprendre les pointeurs, il n'est certainement
+	    pas un bon example de programmation en C.
+	  </xfr>
+	</p>
+
+	<h2>Memory and Types</h2>
+	
+	<p>
+	  The memory of you computer is not typed at all,
+	  it contains 0s and 1s. The 0s and 1s are grouped
+	  in bytes, a byte is 8 consecutive bits. A byte
+	  is the smallest value that can be read or written
+	  to memory. In other words, an address refers to
+	  a byte in memory. Given an address, the processor
+	  can read a byte or write a byte at that address
+	  in memory.
+	  <xfr>
+	    La mémoire de votre ordinateur n'est pas typée,
+	    elle contient simplement des 0s et des 1s.
+	    8 bits consécutifs forment un octet et l'octet
+	    est la plus petite valeur qui peut être lue ou
+	    écrite en mémoire. Aussi, une adresse permet de
+	    lire ou d'écrire un octet en mémoire.
+	  </xfr>
+	</p>
+	<p>
+	  As we said earlier, the processor can write more than
+	  one byte at a time in memory. It can write up to
+	  8 bytes in memory, given an address. The first
+	  byte will be stored at that address. The second
+	  byte will be stored at that address plus one.
+	  And so on.
+	  <xfr>
+	    Comme nous l'avons mentionné plus tôt, le processor
+	    est capable de lire et d'écrire plus d'un octet
+	    à la fois (1, 2, 4, ou 8). Le premier octet est
+	    écrit à la première adresse, le second à l'adresse
+	    plus un, et ainsi de suite. 
+	  </xfr>
+	</p>
+	<p>
+	  The C language defines different primitive types
+	  to benefit from this hardware capability. An
+	  integer value can be encoded differently, depending
+	  of its type. The C programming language defines
+	  the following integer types: int8_t, int16_t,
+	  int32_t, and int64_t, with the numbers giving
+	  the number of bits used.
+	  <xfr>
+	    Le langage C définie plusieurs primitives pour
+	    expoiter cette capacité du processeur. Une valeur
+	    entière peut être encodée sur un ou plusieurs octets
+	    (int8_t, int16_t, int32_t, and int64_t avec le nombre
+	    donnant le nombre de bits utilisés).
+	  </xfr>
+	</p>
+	<p>
+	  As we said earlier, the type tells you how a
+	  memory region looks like. 
+	  If the variable is typed as an int8_t, the memory region
+	  is a byte. If it is typed as an int64_t, the memory
+	  region is 8 bytes. Of course, if variables have
+	  types, pointer variables also have types and
+	  for the same reason. For any type, you can define
+	  a pointer type with the "*", just like this:
+	  <xfr>
+	    Comme nous l'avions mentionné, le type dit au compilateur
+	    comment voir un zone mémoire. Si un variable est
+	    de type int8_t, la zone mémoire contient un seul octet
+	    et le contenu doit être interprété comme une valeur entière
+	    sur 8 bits. Si nous avons un type int32_t, c'est la
+	    même chose mais sur 4 octets.
+	    Bien sûr, si les variables ont un type, les pointeurs
+	    ont un type puisqu'ils sont des variables:
+	  </xfr>
+	</p>
+	<pre class="prettyprint lang-c">
+	  int16_t v = 12;
+	  int16_t* pt = 0x45671;
+	  *pt = (int16_t)12;
+	</pre>
+	<p>
+	  The variable v names a region that is 2 bytes
+	  long. The pointer pt must name a memory region
+	  that is large enough to contain an
+	  address (0x45671). Depending on your processor,
+	  the size of an address is either 32 bits or 64 bits.
+	  <xfr>
+	    La variable v nomme un région qui contient 2 octets.
+	    Le pointeur pt nomme une région qui doit pouvoir
+	    contenir une adresse mémoire (0x45671). En fonction
+	    de votre machine, une adresse en mémoire est soit
+	    encodée sur 32 bits ou sur 64 bits.
+	  </xfr>
+	</p>
+	<p>
+	  Notice that it is not the address
+	  0x45671 that is two byte long, it is the value
+	  read or written at that address that is two byte
+	  long, as the expression "(int16_t)12" tells you.
+	  <xfr>
+	    Donc, remarquez que l'adresse 0x45671 n'est pas
+	    encodée sur 2 octets, c'est la valeur lue ou
+	    écrite à cette adresse qui est sur deux octets,
+	    comme vous l'indique l'expression "(int16_t)12".
+	  </xfr>
+	</p>
+	<p>
+	  Since usually developers do not know valid addresses,
+	  developers usually take the address of a variable.
+	  So a developer would typically write the following:
+	  <xfr>
+	    En général, en tant que développeur, vous ne connaissez
+	    pas les adresses valides. Aussi, les développeurs prennent
+	    l'adresse d'une variable, comme ceci:
+	</p>
+	<pre class="prettyprint lang-c">
+	  int16_t v = 12;
+	  int16_t* pt = &v;
+	  *pt = (int16_t)12;
+	</pre>
+	<p>
+	  But you should not write the code below, changing the type
+	  of the pointer and not the type of the variable.
+	</p>
+	<pre class="prettyprint lang-c">
+	  int16_t v = 12;
+	  int32_t* pt = &v;
+	  *pt = (int32_t)12;
+	</pre>
+	<p>
+	  Why? Because the memory region named by the
+	  variable v is only two bytes. But when executing
+	  *pt, the processor will write 4 bytes. This
+	  means that it will write over the two bytes
+	  named by the variable v, but also two more bytes
+	  that may belonging to something else. For instance:
+	  <xfr>
+	    Pourquoi? Parce que la zone mémoire nommée
+	    par la variable v est longue de deux octets.
+	    Mais en exécution l'écriture par le pointeur,
+	    le processeur va écrire 4 octets puisque le
+	    pointeur est typé (int32_t*). Ce n'est pas
+	    bon, voyez l'example suivant:
+	  </xfr>
+	</p>
+	<pre class="prettyprint lang-c">
+	  int16_t v1 = 12;
+	  int16_t v2 = 21;
+	  int32_t* pt = (int32_t*)&v1;
+	  *pt = 0;
+	</pre>
+	<p>
+	  The code above will likely result in both variable v1 and v2
+	  being assign the value 0. Not really what you
+	  wanted.
+	  Don't just trust us, try it. Modify the source file
+	  <em>"func2.c"</em>, add those lines at the beginning of the
+	  function <em>main</em>, compile, and debug.
+	  Print the variable values as you single step.
+	  You will see. At the end of this sequence, both
+	  variables have a value of zero.
+	  <xfr>
+	    Ce code va résulter dans l'écrasement involontaire de la
+	    variable v2. Ce n'est pas une bonne chose. Ne faites pas
+	    que nous croire, vérifier le par vous même sous debugger,
+	    vous avez les connaissance nécessaire maintenant.
+	    Modifiez le source <em>func2.c</em> téléchargez précédemment
+	    en rajoutant ces lignes au début de la fonction <em>main</em>.
+	    Vérifiez à la fin de la séquence que les deux variables
+	    ont une valeur nulle.
+	  </xfr>
+	</p>
+
+	<h2>Structured Types</h2>
+	
+	<p>
+	  So types described how to interpret memory regions.
+	  But so far, we have just seen different sizes for
+	  integer values. Fortunately, types can do much more
+	  for developers.
+	  <xfr>
+	    Les types décrivent donc comment interpréter les
+	    régions de la mémoire. Mais jusqu'à présent, nous
+	    avons seulement parler de différentes tailles pour
+	    les valeurs entières. Heureusement, les types en C
+	    sont bien plus puissant que cela.
+	  </xfr>
+	</p>
+	<p>
+	  First, the C programming language supports other
+	  primitive types than the various integers. It
+	  understands also real values (float) and character
+	  values (char).
+	  <xfr>
+	    Tout d'abord, le langage C comprends d'autres types
+	    primitifs, autre que les valeurs entières. Il comprends
+	    les valeurs réeles (float) et il comprends aussi
+	    le caractère (char).
+	  </xfr>
+	</p>
+	<p>
+	  Second, the C programming language supports structured
+	  types, called <em>structures</em>. A structure has one
+	  or more <em>fields</em>, each with its own type:
+	  <xfr>
+	    Ensuite le C comprend les types structurés, appelés
+	    <em>structures</em>. Une structure contient un ou
+	    plusieurs champs (fields), chaque champ ayant son
+	    propre type:
+	  </xfr>
+	</p>
+	<pre class="prettyprint lang-c">
+	  struct toto {
+	    int32_t v1;
+	    int16_t v2;
+	    float   v3;
+	  };
+	  struct toto t;
+	  t.v1 = 12;
+	  t.v2 = 33;
+	  t.v3 = 5.0;
+	</pre>
+	<p>
+	  First, we define a structure, named <em>toto</em>.
+	  The structure <em>toto</em> has three fields.
+	  The fields are named v1, v2, and v3.
+	  Then, we declare a variable t, as a structure <em>toto</em>.
+	  Then, we assign values to the different fields of the structure.
+	  <xfr>
+	    D'abord, nous définissions une structure,
+	    appelée <em>toto</em>. La structure a trois champs,
+	    les champs nommés v1, v2, et v3.
+	    Puis nous déclarons une variable dont le type est
+	    <em>struct toto</em>.
+	  </xfr>
+	</p>
+	<p>
+	  No panic! Nothing really different than before. The variable t names
+	  a memory region, as before. But now, the memory region is
+	  larger, large enough to contain the values for the three
+	  fields. We can define a pointer to a structure, like we
+	  defined pointers to integer values. Again, we are using
+	  the &amp; and the <em>*</em> operators:
+	  <xfr>
+	    Pas de panique! Rien n'a changé. La variable t nomme
+	    toujours une région de la mémoire, mais cette région
+	    est maintenant vue comme contenant une structure avec
+	    le format définie par le type <em>struct toto</em>.
+	    La région est donc suffisament grande pour contenir
+	    les valeurs des trois champs. Nous pouvons définir
+	    un pointeur sur une structure, comme nous avions
+	    définie des pointeurs sur des valeurs entières.
+	  </xfr>
+	</p>
+	<pre class="prettyprint lang-c">
+	  struct toto t;
+	  struct toto* pt = &t;
+
+	  (*pt).v1 = 12;
+	  (*pt).v2 = 33;
+	  (*pt).v3 = 5.0;
+	</pre>
+	<p>
+	  The C programming language provides an easier notation
+	  though, using an <em>arrow</em> operator:
+	  <xfr>
+	    Le langage C vous fournit une notation un peu plus simple
+	    à utiliser:
+	  </xfr>
+	</p>
+	<pre class="prettyprint lang-c">
+	  pt->v1 = 12;
+	  pt->v2 = 33;
+	  pt->v3 = 5.0;
+	</pre>
+	<p>
+	  Of course, you can define pointers to individual fields:
+	  <xfr>
+	    Bien sûr, vous pouez définir des pointeurs sur les champs
+	    d'une structure. 
+	  </xfr>
+	</p>
+	<pre class="prettyprint lang-c">
+	  struct toto t;
+
+	  int32_t* v1_pt = &t.v1;
+	  int16_t* v2_pt = &t.v2;
+	  float* v3_pt = &t.v3;
+
+	  (*v1_pt).v1 = 12;
+	  (*v2_pt).v2 = 33;
+	  (*v3_pt).v3 = 5.0;
+	</pre>
+	<p>
+	  So why bother? Well, structures help you organize your data
+	  and therefore help you write more complex programs more easily.
+	  For instance,
+	  you may have a program that manipulates geometrical
+	  points and rectangles.
+	  <xfr>
+	    Pourquoi faire cela? Et bien, les types structurés vous
+	    aident à organiser vos données en mémoire, vous aidant
+	    à écrire des programmes plus complexes plus simplement.
+	    Par exemple, vous pourriez vouloir manipuler des formes
+	    géométriques tells que des points et des lignes:
+	  </xfr>
+	</p>
+	<pre class="prettyprint lang-c">
+	  struct point {
+	    int32_t x;
+	    int32_t y;
+	  };
+	  struct line {
+	    struct point p1;
+	    struct point p2;
+	  };
+	</pre>
+	<p>
+	  Note that the struct line contains the two points.
+	  But you could also use pointers in the struct line:
+	  <xfr>
+	    Notez que la structure ligne contient les deux points
+	    qui représentent ses extrémités. Vous pourriez aussi écrire le type
+	    d'une ligne en utilisant des pointeurs:
+	</p>
+	<pre class="prettyprint lang-c">
+	  struct point {
+	    int32_t x;
+	    int32_t y;
+	  };
+	  struct line {
+	    struct point* p1;
+	    struct point* p2;
+	  };
+	</pre>
+	<b>First TODO:</b>
+	</p><p>
+	  Let's look at structures in practice.
+	</p>
+	<p>
+	  Download this
+	  <a href="struct.c">source file</a>, compile it, and then
+	  execute it under debugger. Look at how structures are
+	  defined. Print the values of fields and their addresses.
+	  Draw on a piece of paper the different layouts of the memory
+	  zones for the different structures.
+	</p>
+
+	<h2>Pointers of Pointer</h2>
+
+	<p>
+	  <b>
+	    Beginners, this is probably too hard for you.
+	    We advise you to skip this section.
+	    <br>
+	    Sorry, this section will be translated later.
+	  </b>
+	</p>
+	<p>
+	  For those who will try, if you get lost,
+	  don't worry, stay with variables
+	  and pointers. Pointers of pointers will only be
+	  needed much later, so you have plenty of time to get it.
+	  But for those of you that are already pretty advanced
+	  C programmers, this will be fun and will challenge
+	  a bit your understanding of pointers.
+	</p>
+	<p>
+	  All pointer variables are variables. This means that
+	  they are symbolic names to memory regions, like any
+	  other variables. This means that you can assign addresses
+	  to them, as values, if you know what the addresses are:
+	</p>
+	<pre class="prettyprint lang-c">
+	  int32_t* vpt = 0x456721;
+	  *vpt = 12;
+	</pre>
+	<p>
+	  To push it a bit further, since the variable vpt is
+	  naming a memory region, that memory region has an
+	  address as well.
+	</p>
+	<pre class="prettyprint lang-c">
+	  int32_t* vpt;
+	  int32_t** vptpt; 
+	  *vptpt = 0x456721;
+	  *vpt = 12;
+	</pre>
+	<p>
+	  We know, this is getting confusing, but in reality,
+	  it is not as complex as it seems.
+	  You always apply the same mechanics.
+	</p>
+	<pre class="prettyprint lang-c">
+	  int32_t v;
+	  int32_t* vpt;
+	  int32_t** vptpt;
+
+	  v = 12;
+
+	  vpt = &v;
+	  *vpt = 12;
+	  
+	  vptpt = &vpt;
+	  *vptpt = &v;
+	  **vptpt = 12;
+	</pre>
+	<p>
+	  Simply remember that the two operators "*" and "&"
+	  are symmetric operators and you can do the following:
+	</p>
+	<pre>
+	  **vptpt as *(*vptpt) as *(*(vptpt))
+	</pre>
+	<p>
+	  This means you can rewrite:
+	</p>
+	<pre>
+	  *(*(vptpt)) as *(*(&vpt)) since vptpt = &vpt.
+	</pre>
+	<p>
+	  Then you can rewrite:
+	</p>
+	<pre>
+	  *(*(&vpt)) as *(*&vpt) since *(x) is the same as *x
+	</pre>
+	<p>
+	  Since as *&amp;vpt is vpt, you can rewrite:
+	</p>
+	<pre>
+	  *(*&vpt) as *(vpt) and then as *vpt
+	</pre>
+	<p>
+	  which
+	  you can rewrite as *vpt, which is equivalent to v.
+	</p>
+	<p>
+	  Since *vpt is equivalent to v, 
+	  therefore we can say that **vptpt = 12 is equivalent to
+	  v = 12;
+	</p>
+
+	<p>
+	  <b>Fifth TODO:</b>
+	</p><p>
+	  Let's look at pointer of pointers in practice.
+	</p><p>
+	  Download this
+	  <a href="ptpt.c">file</a>, compile it, and then
+	  execute it under debugger.
+	</p><p>
+	  Good luck to you.
+	</p><p>
+	  Are you courageous, crazzy, or simply skilled?
+	</p><p>
+	  You will know soon now...
+	</p>
+	
+	<div id="footer" >
+	  &copy; Pr. Olivier Gruber
+	  <div id="bottom-links" style="float: right">
+	    <a href="index.html">Home</a> 
+	  </div>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>

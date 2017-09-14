@@ -1,0 +1,216 @@
+<!doctype html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en-US" >
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Basics Workshop</title>
+    <meta name="CHANGEDBY" content="Pr. Olivier Gruber">
+    <link rel="stylesheet" href="style.css" type="text/css"/> 
+    <link rel="stylesheet" href="prettify.css" type="text/css" rel="stylesheet" />
+    <script src="prettify.js" type="text/javascript"></script>
+    <script src="common.js"></script>
+  </head>
+
+  <body onload="shellOnLoad()">
+
+    <script>
+      function shellOnLoad() {
+        prettyPrint();
+        multiLang();
+      }  
+    </script>
+
+    <div id="outer-container" >
+      <div id="header" >
+	<div id="logo" >
+	  <img src="logo_uga.png" height="100" border="0" alt="Université Grenoble-Alpes" />
+	  <img src="logo_reseau_polytech.gif" height="80" border="0" alt="Polytech" />
+	</div>
+	<div id="top-links">
+	  <a href="index.html">Home</a> 
+	</div>
+      </div>
+      <div id="inner-container" >
+	
+	<h1>The Debugger GDB</h1>
+
+	<p>
+	  The debugger will be your best friends for the years
+	  to come. It is used by advanced developers to fix bugs
+	  (mistakes) in their code. It is used by beginners to
+	  help them learn the C programming language. As we
+	  said, a debugger is the best friend of any real developer.
+	  <xfr>
+	    Le debugger sera votre meilleur ami pour les années à
+	    venir. Il est utilisé par les dévelopers pour mettre au
+	    point leur programme. Le debugger permet de trouver
+	    les erreurs de programmation et ainsi de les corriger.
+	    Un debugger peut être aussi utiliser par un débutant
+	    pour apprendre à programmer.
+	  </xfr>
+	</p>
+
+	<h2>Debugging the HelloWorld program</h2>
+
+	<p>
+	  We assume that you already typed and compiled
+	  the HelloWorld program like this:
+	</p>
+	<textarea class="terminal" rows="7" >	
+  $ cd ~
+  $ mkdir HelloWorld
+  $ cd HelloWorld
+  $ nano hw.c
+    type the source
+  $ gcc -g -o hw hw.c  
+	</textarea>
+	<p>
+	  With the following source:
+	</p>
+	<pre class="prettyprint lang-c">
+#include "stdint.h"
+#include "stdio.h"
+
+int32_t main(int32_t argc, char* argv[]) {
+  printf("Hello World! \n");
+  return 0;
+}
+	</pre>
+	
+	<p>
+	  Now, let's debug the execution.
+	</p>
+
+	<textarea class="terminal" rows="17" >	
+  john:HelloWorld$ gdb hw
+  GNU gdb (Ubuntu 7.11.1-0ubuntu1~16.5) 7.11.1
+  ...
+  Reading symbols from hw...done.
+  (gdb) br main
+  Breakpoint 1 at 0x400535: file hw.c, line 5.
+  (gdb) run
+  Starting program: /homex/john/HelloWorld/hw 
+
+  Breakpoint 1, main (argc=1, argv=0x7fffffffdcc8) at hw.c:5
+  5	  printf("Hello World! \n");
+  (gdb) continue
+  Continuing.
+  Hello World! 
+  [Inferior 1 (process 10188) exited normally]
+  (gdb) quit
+  john:HelloWorld$ 
+	</textarea>
+	<p>
+	  Cool, you just debug your first program. <br>
+	  Oh well, you may not have understood much, but that's OK,<br>
+	  let do it again, with explanations.
+	  <xfr>
+	    Cool, vous venez de debugger votre premier program.
+	    Bien sûr, quelques petites choses vous ont échappé,
+	    donc nous allons recommencer, avec des explications.
+	  </xfr>
+	</p>
+	<p>
+	  First, you launch the debugger "gdb", asking it to load
+	  the file "hw". It does so and then gives a prompt (gdb).
+	  <xfr>
+	    En premier, lancez le debugger "gdb", en lui demandant
+	    de charger le fichier exécutable "hw". Il le fait et
+	    vous donne le prompt de sa console (gdb).
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="6" >	
+  $ gdb hw
+  GNU gdb (Ubuntu 7.11.1-0ubuntu1~16.5) 7.11.1
+  ...
+  Reading symbols from hw...done.
+  (gdb) 
+	</textarea>
+
+	<p>
+	  Then you asked the debugger to insert a breakpoint
+	  at the beginning of the function main.
+	  <xfr>
+	    Ensuite, vous demandez au debugger d'insérer un
+	    point d'arrêt (breakpoint en anglais) au début de
+	    la fonction main:
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="3" >	
+  (gdb) br main
+  Breakpoint 1 at 0x400535: file hw.c, line 5.
+	</textarea>
+	<p>
+	  But what is this function "main".
+	  The function <em>main</em> is the entry
+	  point of the execution of your program.
+	  In other words, the execution of your
+	  program will always start at the
+	  function <em>main</em>.
+	  <xfr>
+	    Mais cette fonction main, qu'est-ce?
+	    C'est le point d'entrée de votre program,
+	    la fonction par laquelle l'exécution va
+	    commencer.
+	  </xfr>
+	</p>
+	<p>
+	  You then ask the debugger to launch the
+	  execution, which, of course, 
+	  will stop right away at
+	  the first line of the function <em>main</em>.
+	  <xfr>
+	    Vous avez alors demandez au debugger de
+	    lancer l'exécution de votre programme,
+	    qui, bien sûr, s'est arrêtée à la première
+	    ligne de la fonction main, sur le point
+	    d'arrêt qui vous aviez ajouté.
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="6" >	
+  (gdb) run
+  Starting program: /homex/john/HelloWorld/hw 
+
+  Breakpoint 1, main (argc=1, argv=0x7fffffffdcc8) at hw.c:5
+  5	  printf("Hello World! \n");
+	</textarea>
+	<p>
+	  Then you asked the debugger to continue the
+	  execution. Since there are no other breakpoints,
+	  the execution continued until the end of the program.
+	  <xfr>
+	    Vous avez ensuite demandé au debugger de continuer
+	    l'exécution. Puisqu'il n'y a aucun autre point
+	    d'arrêt, l'exécution s'est déroulée jusqu'à la fin.
+	</p>
+	<textarea class="terminal" rows="6" >	
+  (gdb) continue
+  Continuing.
+  Hello World! 
+  [Inferior 1 (process 10188) exited normally]
+  (gdb) 
+	</textarea>
+	<p>
+	  So there was nothing else to do, so we
+	  terminated gdb, returning to the shell.
+	  <xfr>
+	    Puisque vous n'aviez rien d'autre à faire
+	    sous le debugger, nous avons quitter le
+	    debugger et vous êtes revenu sous le
+	    shell.
+	  </xfr>
+	</p>
+	<textarea class="terminal" rows="3" >	
+  (gdb) quit
+  john:HelloWorld$ 
+	</textarea>
+
+	<div id="footer" >
+	  &copy; Pr. Olivier Gruber
+	  <div id="bottom-links" style="float: right">
+	    <a href="index.html">Home</a> 
+	  </div>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>
