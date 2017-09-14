@@ -83,10 +83,13 @@ int32_t main(int32_t argc, char *argv[])
     mot_random(chaine);
     int nb_essai = (strlen(chaine) - 2) * 2;
     int bool_mot[strlen(chaine - 2)];
-    //afficheMot(chaine);
     printf("%s et nb essai %d\n", chaine, nb_essai);
-    motUser(&char_user);
-    testMot(chaine, &char_user, bool_mot);
+    while (nb_essai != 0)
+    {
+        motUser(&char_user);
+        testMot(chaine, &char_user, bool_mot);
+        nb_essai -= 1;
+    }
 
     return 0;
 }
